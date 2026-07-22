@@ -58,7 +58,7 @@ Apple eventually pulled the notification summary feature to work on fixes. Resea
 
 ## Corporate Spending vs. Real-World Results
 
-Despite public hesitation, tech companies like Google, Meta, and Microsoft allocated over $650 billion toward AI infrastructure (double their 2025 expenditure). Financial markets initially rewarded these investments with stock surges under the assumption of cost reduction and efficiency gains:
+Despite public hesitation, tech companies like Google, Meta, and Microsoft allocated over **AED 2.387 trillion** ($650 billion USD) toward AI infrastructure (double their 2025 expenditure). Financial markets initially rewarded these investments with stock surges under the assumption of cost reduction and efficiency gains:
 * **Cloudflare** reduced its workforce by 20%.
 * **Cisco** cut nearly 4,000 employees (about 5% of its workforce) in an AI-focused reorganization.
 
@@ -66,13 +66,13 @@ However, internal corporate metrics reveal widespread corporate uncertainty:
 
 * **FOMO Driving Spending:** An IBM survey revealed that **64% of CEOs** acknowledged fear of falling behind drove their AI investments before they understood its business impact. 
 * **Lack of Clear Strategy:** A Deloitte survey of nearly 2,000 executives quoted one leader saying: *"Everyone is asking their organization to adopt AI even if they don't know what the output is. There's so much hype that I think companies are expecting it to just magically solve everything."*
-* **Zero Contribution to GDP:** A Goldman Sachs analysis noted that $700 billion in AI investments during 2025 contributed essentially zero to national GDP growth.
-* **High Failure Rates:** An MIT study indicated that **95% of enterprise AI pilots failed** to deliver measurable results. Out of dozens of launched projects, only 5 showed functional utility, and only 11% of surveyed companies reported meeting their stated objectives despite $30 billion to $40 billion in corporate spending.
+* **Zero Contribution to GDP:** A Goldman Sachs analysis noted that **AED 2.57 trillion** ($700 billion USD) in AI investments during 2025 contributed essentially zero to national GDP growth.
+* **High Failure Rates:** An MIT study indicated that **95% of enterprise AI pilots failed** to deliver measurable results. Out of dozens of launched projects, only 5 showed functional utility, and only 11% of surveyed companies reported meeting their stated objectives despite **AED 110.18 billion to AED 146.90 billion** ($30 billion to $40 billion USD) in corporate spending.
 
 ### Hype-Driven Valuation Spikes
 For some companies, the primary utility of announcing AI projects has been short-term stock appreciation. 
 * When Apple announced its AI roadmap, its stock jumped 7% in a single day.
-* Footwear brand **Allbirds**, which went public in 2021 with a peak valuation of $4 billion, saw severe store closures and lost 25% of its value in 2024. After selling its brand to American Exchange for $39 million, the parent entity announced a transition to manufacturing AI chips. The announcement caused its stock price to jump **580%**, despite no immediate operational changes, drawing comparisons to the 2017 crypto boom when *Long Island Iced Tea* renamed itself *Long Island Blockchain*, causing a 380% stock spike before being delisted for insider trading.
+* Footwear brand **Allbirds**, which went public in 2021 with a peak valuation of **AED 14.69 billion** ($4 billion USD), saw severe store closures and lost 25% of its value in 2024. After selling its brand to American Exchange for **AED 143.23 million** ($39 million USD), the parent entity announced a transition to manufacturing AI chips. The announcement caused its stock price to jump **580%**, despite no immediate operational changes, drawing comparisons to the 2017 crypto boom when *Long Island Iced Tea* renamed itself *Long Island Blockchain*, causing a 380% stock spike before being delisted for insider trading.
 
 ---
 
@@ -101,9 +101,9 @@ Environmental impact is a primary concern for nearly 60% of adults under 30. AI 
 ## Wealth Inequality and Historical Parallels
 
 The financial gains from the AI boom remain heavily concentrated at the top:
-* In 2025, the top 10% of US households saw their wealth increase by **$5 trillion** in a single quarter, compared to **$150 billion** gained by the bottom 50% (roughly 3% of the top group's gain).
-* The combined net worth of America's 10 richest tech executives reached **$2.5 trillion** in 2025 (up from $1.9 trillion).
-* Elon Musk's wealth increased by **$187 billion** in a single year, while Google co-founders Larry Page and Sergey Brin each added over $90 billion.
+* In 2025, the top 10% of US households saw their wealth increase by **AED 18.36 trillion** ($5 trillion USD) in a single quarter, compared to **AED 550.88 billion** ($150 billion USD) gained by the bottom 50% (roughly 3% of the top group's gain).
+* The combined net worth of America's 10 richest tech executives reached **AED 9.18 trillion** ($2.5 trillion USD) in 2025 (up from **AED 6.98 trillion** / $1.9 trillion USD).
+* Elon Musk's wealth increased by **AED 686.76 billion** ($187 billion USD) in a single year, while Google co-founders Larry Page and Sergey Brin each added over **AED 330.53 billion** ($90 billion USD).
 * Over 50 new billionaires were created globally in 2025 through AI ventures.
 * The richest 1% of US households held **31.7% of all national wealth** in late 2025, which is the highest share ever recorded by the Federal Reserve.
 
