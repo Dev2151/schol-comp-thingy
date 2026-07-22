@@ -1,8 +1,8 @@
 # The AI Backlash: Gen Z, Economic Disruption, and the Hidden Costs of Artificial Intelligence
 
-Across countries like the USA, UK, Canada, Australia, and beyond, young people aged 13–25 have been vocal about their disdain for artificial intelligence (AI). Recent college graduation ceremonies in America made this resistance clear. 
+Across countries like the USA, UK, Canada, Australia, and beyond, young people aged 13-25 have been vocal about their disdain for artificial intelligence (AI). Recent college graduation ceremonies in America made this resistance clear. 
 
-During a graduation ceremony at the University of Central Florida (UCF)—specifically for the UCF College of Arts and Humanities and the Nicholson School of Communication—commencement speaker Gloria Caulfield, Vice President of Strategic Alliances for Tavistock Development Company, stated:
+During a graduation ceremony at the University of Central Florida (UCF), specifically for the UCF College of Arts and Humanities and the Nicholson School of Communication, commencement speaker Gloria Caulfield, Vice President of Strategic Alliances for Tavistock Development Company, stated:
 
 > *"The rise of artificial intelligence is the next industrial revolution."* Her comment (seen at [https://www.youtube.com/watch?v=crwbno_SSIo](https://www.youtube.com/watch?v=crwbno_SSIo)) was met with boos and general disdain from graduating students. Elsewhere, college speakers urging students to embrace AI received similar reactions. One university even used an AI system to read graduates' names, announcing to the audience, *"We're using a new AI system as our reader"* (seen at [https://www.youtube.com/watch?v=hc_ETp61ZmY](https://www.youtube.com/watch?v=hc_ETp61ZmY)). This announcement was met with loud groans and boos, prompting National Public Radio (NPR) to run a segment advising commencement speakers to avoid bringing up AI if they wanted to avoid being booed.
 
@@ -13,7 +13,7 @@ During a graduation ceremony at the University of Central Florida (UCF)—specif
 For older adults, this hostility from younger demographics may come as a surprise, as older generations are accustomed to seeing teens and young adults embrace new technologies. According to Pew Research, people under 35 remain more likely to own smartphones, use the internet, and engage with social media than those aged 50 and older. However, sentiment toward AI shows a starkly different trend:
 
 * **Gen Z Sentiment:** According to a Gallup survey, Gen Z's excitement about AI dropped by 12% (from 36% down to 22%), while feelings of anger toward AI increased from 22% to 31%.
-* **Rejection of Adoption:** Among Gen Z consumers who do not use AI, **57%** say they are not open to adopting the technology, compared to **32%** of Baby Boomers who say the same.
+* **Rejection of Adoption:** Among Gen Z consumers who do not use AI, **57%** say they are completely unwilling to adopt the technology, compared to **32%** of Baby Boomers who say the same.
 * **Older Adult Adoption:** AI usage among adults over 50 doubled, rising from 18% to 30%.
 
 ---
@@ -36,7 +36,7 @@ Courteney Brown, Vice President at the Lumina Foundation, shared that students a
 
 Around half of all college students report having given serious thought to changing their major due to AI. With entry-level positions and internships down by as much as 15% and applicant pools up by 26%, researchers at the Burning Glass Institute note that for the first time in history, a bachelor's degree is no longer a reliable path to securing professional employment.
 
-Consequently, a large segment of young people is considering skilled trade professions—such as plumbers, HVAC technicians, and electricians—that cannot easily be automated. Enrollment in trade programs for individuals aged 17–21 pursuing two-year vocational degrees recently reached its highest level in 30 years.
+Consequently, a large segment of young people is considering skilled trade professions (such as plumbers, HVAC technicians, and electricians) that cannot easily be automated. Enrollment in trade programs for individuals aged 17-21 pursuing two-year vocational degrees recently reached its highest level in 30 years.
 
 ---
 
@@ -58,9 +58,9 @@ Apple eventually pulled the notification summary feature to work on fixes. Resea
 
 ## Corporate Spending vs. Real-World Results
 
-Despite public hesitation, tech companies like Google, Meta, and Microsoft allocated over $650 billion toward AI infrastructure—double their 2025 expenditure. Financial markets initially rewarded these investments with stock surges under the assumption of cost reduction and efficiency gains:
+Despite public hesitation, tech companies like Google, Meta, and Microsoft allocated over $650 billion toward AI infrastructure (double their 2025 expenditure). Financial markets initially rewarded these investments with stock surges under the assumption of cost reduction and efficiency gains:
 * **Cloudflare** reduced its workforce by 20%.
-* **Cisco** cut nearly 4,000 employees (~5% of its workforce) in an AI-focused reorganization.
+* **Cisco** cut nearly 4,000 employees (about 5% of its workforce) in an AI-focused reorganization.
 
 However, internal corporate metrics reveal widespread corporate uncertainty:
 
@@ -72,7 +72,7 @@ However, internal corporate metrics reveal widespread corporate uncertainty:
 ### Hype-Driven Valuation Spikes
 For some companies, the primary utility of announcing AI projects has been short-term stock appreciation. 
 * When Apple announced its AI roadmap, its stock jumped 7% in a single day.
-* Footwear brand **Allbirds**, which went public in 2021 with a peak valuation of $4 billion, saw severe store closures and lost 25% of its value in 2024. After selling its brand to American Exchange for $39 million, the parent entity announced a transition to manufacturing AI chips. The announcement caused its stock price to jump **580%**, despite no immediate operational changes—drawing comparisons to the 2017 crypto boom when *Long Island Iced Tea* renamed itself *Long Island Blockchain*, causing a 380% stock spike before being delisted for insider trading.
+* Footwear brand **Allbirds**, which went public in 2021 with a peak valuation of $4 billion, saw severe store closures and lost 25% of its value in 2024. After selling its brand to American Exchange for $39 million, the parent entity announced a transition to manufacturing AI chips. The announcement caused its stock price to jump **580%**, despite no immediate operational changes, drawing comparisons to the 2017 crypto boom when *Long Island Iced Tea* renamed itself *Long Island Blockchain*, causing a 380% stock spike before being delisted for insider trading.
 
 ---
 
@@ -91,7 +91,7 @@ Environmental impact is a primary concern for nearly 60% of adults under 30. AI 
 
 ### Key Impacts:
 * **Carbon Discrepancies:** Google previously pledged to reach net-zero emissions by 2030. However, in 2024, it reported a **48% increase in greenhouse gas emissions** since 2019 due to data center expansion, eventually pivoting to "ambition-based" climate targets. Similarly, Microsoft reported an emissions increase of **23.4%** relative to its 2020 baseline.
-* **Water Usage:** In 2024, **78%** of the water used by Google’s data centers was potable drinking water (totaling 29,147,670,737.8 liters)—enough to sustain the population of Kollam, Kerala for an entire year. More than 2,000 AI data centers were constructed globally over a 3-year period (+70% increase), with many located in water-scarce regions like Arizona, USA.
+* **Water Usage:** In 2024, **78%** of the water used by Google’s data centers was potable drinking water (totaling 29,147,670,737.8 liters), which is enough to sustain the population of Kollam, Kerala for an entire year. More than 2,000 AI data centers were constructed globally over a 3-year period (+70% increase), with many located in water-scarce regions like Arizona, USA.
 * **Local Impacts:**
   * In Newton County, Georgia, a Meta data center was permitted to draw over 1,892,705.89 liters of water daily, leading to reported drops in residential water pressure.
   * In Virginia ("Data Center Alley"), data centers consume **39% of the state's total electricity**, contributing to residential electricity bill increases of up to 80% over 3 years alongside persistent cooling fan noise within a 2.5-mile radius.
@@ -105,10 +105,10 @@ The financial gains from the AI boom remain heavily concentrated at the top:
 * The combined net worth of America's 10 richest tech executives reached **$2.5 trillion** in 2025 (up from $1.9 trillion).
 * Elon Musk's wealth increased by **$187 billion** in a single year, while Google co-founders Larry Page and Sergey Brin each added over $90 billion.
 * Over 50 new billionaires were created globally in 2025 through AI ventures.
-* The richest 1% of US households held **31.7% of all national wealth** in late 2025—the highest share ever recorded by the Federal Reserve.
+* The richest 1% of US households held **31.7% of all national wealth** in late 2025, which is the highest share ever recorded by the Federal Reserve.
 
 ### Historical Context: The Industrial Revolution
-While speakers often frame AI as the "next Industrial Revolution," the original Industrial Revolution (c. 1760s–1850s) created significant hardship for working populations during its initial decades:
+While speakers often frame AI as the "next Industrial Revolution," the original Industrial Revolution (c. 1760s-1850s) created significant hardship for working populations during its initial decades:
 * Workers transitioned from decentralized agrarian and trade work to urban factory environments, facing 12-to-16-hour workdays for minimal wages.
 * Living conditions in urban centers led to drops in average life expectancy.
-* Capital owners reaped immediate rewards, while broad societal benefits—such as the 8-hour workday, weekend rest periods, child labor restrictions, and workplace safety laws—required decades of labor organization and policy reform to establish.
+* Capital owners reaped immediate rewards, while broad societal benefits (such as the 8-hour workday, weekend rest periods, child labor restrictions, and workplace safety laws) required decades of labor organization and policy reform to establish.
