@@ -40,9 +40,9 @@ Consequently, a large segment of young people is considering skilled trade profe
 
 ---
 
-## Missteps in AI Implementation
+## Missteps in AI and Automated Systems Implementation
 
-Much of the frustration stems from top-down implementations forced upon workers and consumers without their consent.
+Much of the frustration stems from top-down implementations forced upon workers, students, and consumers without their consent or proper oversight.
 
 ### 1. Corporate Rollouts: Starbucks
 Starbucks introduced a system requiring staff to use handheld tablets to automatically scan and count inventory. However, the system struggled with basic product identification, confusing milk types and overlooking items on shelves. A Starbucks promotional video highlighted these malfunctions, leading to further coverage ([CNBC Article](https://www.cnbc.com/2026/05/21/starbucks-scraps-ai-inventory-tool-across-north-america.html)). A few months after the rollout, the tool was quietly discontinued, and original promotional announcements were deleted.
@@ -53,6 +53,15 @@ Apple spent much of 2024 marketing AI features bundled into the iPhone 16. One f
 * Other false summaries claimed Pete Hegseth had been fired, Marco Rubio had been confirmed, and Israeli Prime Minister Benjamin Netanyahu had been arrested.
 
 Apple eventually pulled the notification summary feature to work on fixes. Researchers at Washington State University (WSU) found that explicitly labeling a product with "AI" often made consumers less likely to buy it.
+
+### 3. High-Stakes Institutional Failures: The CBSE OSM Scandal
+The risks of hasty, automated edtech rollouts reached a tipping point with India's Central Board of Secondary Education (CBSE) Class 12 examination results. In an attempt to digitize and automate evaluation at a national scale for over 1.7 million students, CBSE mandated an **On-Screen Marking (OSM)** system.
+
+What was intended to streamline grading turned into a widespread institutional crisis:
+* **Scanning & Verification Failures:** Scanned answer booklets were delivered to evaluators with extreme motion blur, cropped margins, missing pages, and swapped scripts. In viral cases, students received digitized answer sheets belonging to entirely different individuals, leading evaluators to assign arbitrary marks to illegible or wrong papers.
+* **Pass Percentage Drop:** The overall national pass percentage plunged to **85.20%**—the lowest in seven years—triggering nationwide student anxiety and public outrage.
+* **Systemic Technical Vulnerabilities:** Issues with vendor platform integration, lack of pilot testing, and severe portal crashes during re-evaluation worsened the disruption for students seeking redressal.
+* **Judicial & High-Level Scrutiny:** Following widespread student distress and portal failures, the Supreme Court of India intervened, seeking a status report from the Union Government on the ongoing probe into technical and evaluation defects.
 
 ---
 
@@ -112,3 +121,9 @@ While speakers often frame AI as the "next Industrial Revolution," the original 
 * Workers transitioned from decentralized agrarian and trade work to urban factory environments, facing 12-to-16-hour workdays for minimal wages.
 * Living conditions in urban centers led to drops in average life expectancy.
 * Capital owners reaped immediate rewards, while broad societal benefits (such as the 8-hour workday, weekend rest periods, child labor restrictions, and workplace safety laws) required decades of labor organization and policy reform to establish.
+
+---
+
+For further coverage on automated education systems and student grievances, watch the [Indian Express / India Today news reports on CBSE marking errors](https://www.youtube.com/watch?f5zJmhgdwro).
+
+This provides real-world context on how On-Screen Marking (OSM) glitches affected students' answer sheets and triggered widespread concern over automated evaluation systems.
