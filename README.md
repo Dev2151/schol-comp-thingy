@@ -124,6 +124,3 @@ While speakers often frame AI as the "next Industrial Revolution," the original 
 
 ---
 
-For further coverage on automated education systems and student grievances, watch the [Indian Express / India Today news reports on CBSE marking errors](https://www.youtube.com/watch?f5zJmhgdwro).
-
-This provides real-world context on how On-Screen Marking (OSM) glitches affected students' answer sheets and triggered widespread concern over automated evaluation systems.
