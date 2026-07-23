@@ -52,7 +52,7 @@ Apple spent much of 2024 marketing AI features bundled into the iPhone 16. One f
 
 Apple eventually pulled the notification summary feature to work on fixes. Researchers at Washington State University (WSU) found that explicitly labeling a product with "AI" often made consumers less likely to buy it.
 
-### 3. High-Stakes Institutional Failures: The CBSE OSM Scandal
+### 3. AI Implementation issues in india and education
 The risks of hasty, automated edtech rollouts reached a tipping point with India's Central Board of Secondary Education (CBSE) Class 12 examination results. In an attempt to digitize and automate evaluation at a national scale for over 1.7 million students, CBSE mandated an **On-Screen Marking (OSM)** system.
 
 What was intended to streamline grading turned into a widespread institutional crisis:
