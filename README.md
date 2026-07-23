@@ -131,4 +131,6 @@ this solution is what I feel possible in the constraints which you have given be
 
 
 #### Hi mr/mrs reviewer :) I know this looks incredibly ai made which might be ok considering what the competition is but this is not ai made i did use ai to to format this into a .MD file for github and correct the spellings the original file is avalabilbe on this link https://docs.google.com/document/d/14ZMi8mFmF2hny9YieWnCVrMuappkuDtwHbCHDAsg3f0/edit?usp=sharing 
+> I need to give credit to this video for bringing my attention to the cause and gave me inspiration to choose this topic https://www.youtube.com/watch?v=-i4hgyJ01ZQ
+
 
