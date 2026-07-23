@@ -1,4 +1,4 @@
-# The AI Backlash: Gen Z, Economic Disruption, and the Hidden Costs of Artificial Intelligence
+# Why AI bad
 
 Across countries like the USA, UK, Canada, Australia, and beyond, young people aged 13-25 have been vocal about their disdain for artificial intelligence (AI). Recent college graduation ceremonies in America made this resistance clear. 
 
@@ -8,7 +8,6 @@ During a graduation ceremony at the University of Central Florida (UCF), specifi
 
 ---
 
-## Shifting Attitudes Across Generations
 
 For older adults, this hostility from younger demographics may come as a surprise, as older generations are accustomed to seeing teens and young adults embrace new technologies. According to Pew Research, people under 35 remain more likely to own smartphones, use the internet, and engage with social media than those aged 50 and older. However, sentiment toward AI shows a starkly different trend:
 
@@ -18,7 +17,6 @@ For older adults, this hostility from younger demographics may come as a surpris
 
 ---
 
-## Job Anxiety, College Majors, and the Trade School Pivot
 
 The primary driver behind young people rejecting AI is the threat it poses to entry-level career pathways. Before high schoolers even step foot on a college campus, they are required to make decisions that shape the trajectory of their lives. In a recent survey:
 * **50%** of students felt uncertain about the impact of AI on their future jobs.
@@ -40,7 +38,7 @@ Consequently, a large segment of young people is considering skilled trade profe
 
 ---
 
-## Missteps in AI and Automated Systems Implementation
+
 
 Much of the frustration stems from top-down implementations forced upon workers, students, and consumers without their consent or proper oversight.
 
@@ -65,7 +63,7 @@ What was intended to streamline grading turned into a widespread institutional c
 
 ---
 
-## Corporate Spending vs. Real-World Results
+
 
 Despite public hesitation, tech companies like Google, Meta, and Microsoft allocated over **AED 2.387 trillion** ($650 billion USD) toward AI infrastructure (double their 2025 expenditure). Financial markets initially rewarded these investments with stock surges under the assumption of cost reduction and efficiency gains:
 * **Cloudflare** reduced its workforce by 20%.
@@ -85,7 +83,7 @@ For some companies, the primary utility of announcing AI projects has been short
 
 ---
 
-## Environmental Cost and Resource Strain
+
 
 Environmental impact is a primary concern for nearly 60% of adults under 30. AI infrastructure requires massive data center expansion, which consumes substantial electricity and water.
 
@@ -107,7 +105,6 @@ Environmental impact is a primary concern for nearly 60% of adults under 30. AI 
 
 ---
 
-## Wealth Inequality and Historical Parallels
 
 The financial gains from the AI boom remain heavily concentrated at the top:
 * In 2025, the top 10% of US households saw their wealth increase by **AED 18.36 trillion** ($5 trillion USD) in a single quarter, compared to **AED 550.88 billion** ($150 billion USD) gained by the bottom 50% (roughly 3% of the top group's gain).
