@@ -122,8 +122,13 @@ While speakers often frame AI as the "next Industrial Revolution," the original 
 ---
 ## The solution
 there is none
-there is none because this is not a easy problem to solve 
+there is none because this is not a easy problem to solve. There is no single solution because this is not one issue this is multiple issues. so what i can do is offer a solution to the issue where data centers use a lot of energy and space and cause noise pollution as that is a extremely easy solution to solve compared to the issues outlined 
+## The solution (real)
+I hope you have understood how hard it is to make a solution for this so 
+the solution is that instead of making one huge data center in a city which is more efficant we aplit it into multiple smaller data centers for example instead of one huge hard disk of 500gb it is 5, hard disks of 100 gb and instead of one huge processing center for ai it is split across multiple computers and I plan to make a app for that 
+this solution is what I feel possible in the constraints which you have given being space, data science, app devlopment etc so I can make a app which can be installed on computers that when installed will use a little bit of the computers power for ai (which I discorage) or reserve a tiny chunk of the computers hard disk for google drive and encrypt it so a user on a seperate client side app can upload for example there photos or documents and will be stored on many computers each reserving 1 or 2 gb multiplied times multiple computers can have more storage than google drive while being cheap or free and this can be easily made by using electron for the app devlopment and Ollama to run the ai locally instead of on open ai servers making it cheaper and sort of distribute the energy load instead of concentrating all the enerygy and water requirements in one place 
+ 
 
 
-### Hi mr/mrs reviewer :) I know this looks incredibly ai made which might be ok considering what the competition is but this is not ai made i did use ai to to format this into a .MD file for github and correct the spellings the original file is avalabilbe on this link https://docs.google.com/document/d/14ZMi8mFmF2hny9YieWnCVrMuappkuDtwHbCHDAsg3f0/edit?usp=sharing 
+#### Hi mr/mrs reviewer :) I know this looks incredibly ai made which might be ok considering what the competition is but this is not ai made i did use ai to to format this into a .MD file for github and correct the spellings the original file is avalabilbe on this link https://docs.google.com/document/d/14ZMi8mFmF2hny9YieWnCVrMuappkuDtwHbCHDAsg3f0/edit?usp=sharing 
 
