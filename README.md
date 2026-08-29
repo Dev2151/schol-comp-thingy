@@ -266,3 +266,152 @@ The worker auto-discovers the coordinator via mDNS (same LAN) or connects to the
 | AI Backend | Ollama API (local inference) |
 | Layer Splitting | Custom proportional allocator based on RAM |
 | Token Streaming | Real-time broadcast to all connected workers |
+
+---
+---
+
+# Part 3: How Effectively Does Title TBD Address These Problems?
+
+This section evaluates Title TBD against each core problem identified in the original essay.
+
+---
+
+## Problem 1: Data Centers Consume Massive Energy and Water
+
+**The issue:** A single AI data center uses ~1 MW+ of power and billions of liters of potable water annually. Google reported a 48% increase in greenhouse gas emissions since 2019, and data centers in Virginia consume 39% of the state's total electricity.
+
+**How Title TBD addresses this:**
+
+| Metric | Traditional Data Center | Title TBD (3 PCs) |
+|--------|------------------------|--------------------|
+| Power | ~1 MW+ | ~150W (3 × 50W) |
+| Cooling | Massive water usage | Standard room temperature |
+| New infrastructure needed | Yes — new facilities | No — uses existing PCs |
+| Water consumption | Billions of liters/year | Zero |
+
+Title TBD doesn't build new data centers. It repurposes hardware people already own. A typical home PC uses 50-200W under load versus a data center's megawatts. The distributed approach means no single facility needs industrial cooling, no water is consumed for server farms, and no new construction is required.
+
+**Effectiveness: HIGH** — Directly eliminates the core infrastructure problem by distributing compute across existing devices.
+
+---
+
+## Problem 2: Centralized Control and Corporate FOMO
+
+**The issue:** 64% of CEOs admitted fear of falling behind drove AI investments before understanding business impact. $650 billion was spent in 2025, contributing essentially zero to GDP growth. 95% of enterprise AI pilots failed.
+
+**How Title TBD addresses this:**
+
+Title TBD removes the dependency on corporate AI infrastructure entirely. Instead of companies spending billions on centralized compute that mostly fails, Title TBD lets individuals and small groups run models locally for free. There is no subscription, no API call, no vendor lock-in. The hardware already exists in people's homes and offices.
+
+This doesn't fix corporate FOMO directly — companies will still overspend. But it proves the alternative works: distributed, local, free AI inference is technically viable today. If more organizations adopted this approach, the pressure to build massive centralized facilities would decrease.
+
+**Effectiveness: MEDIUM** — Proves an alternative exists and works, but doesn't change corporate behavior directly.
+
+---
+
+## Problem 3: Wealth Concentration from AI
+
+**The issue:** The top 10% of US households gained $5 trillion in a single quarter. The 10 richest tech executives reached $2.5 trillion combined. Over 50 new AI billionaires were created in 2025. The richest 1% held 31.7% of all national wealth — the highest ever recorded.
+
+**How Title TBD addresses this:**
+
+Title TBD is open source and free. The compute comes from hardware people already own. The models are open source (Gemma, Llama, Mistral, Qwen). No company profits from your inference — not Google, not OpenAI, not Meta. Your data stays on your machine.
+
+This doesn't redistribute wealth, but it stops the wealth extraction loop. When AI runs locally, there's no API fee going to a $2.5 trillion company. For schools, small businesses, and developing regions, this means access to AI without paying the toll.
+
+**Effectiveness: MEDIUM** — Stops ongoing wealth extraction from local AI use, but doesn't address existing concentration.
+
+---
+
+## Problem 4: Entry-Level Job Displacement
+
+**The issue:** Entry-level jobs and internships dropped 15%, applicant pools increased 26%, and 50% of students feel uncertain about AI's impact on their careers. Trade school enrollment hit a 30-year high as students flee tech.
+
+**How Title TBD addresses this:**
+
+This is the hardest problem to solve with software. Title TBD doesn't create jobs — it distributes the work of running AI across existing hardware, which could theoretically reduce the need for data center construction jobs (electricians, HVAC technicians, facility managers). However, it could also reduce the barrier to AI adoption, making the automation problem worse.
+
+The honest assessment: Title TBD is not designed to solve job displacement. It's designed to solve the infrastructure and energy problem. Job displacement requires policy solutions, not just technical ones.
+
+**Effectiveness: LOW** — Not designed for this problem. Technical solutions alone cannot solve systemic economic displacement.
+
+---
+
+## Problem 5: Top-Down AI Forced on Users Without Consent
+
+**The issue:** Starbucks rolled out broken AI inventory tools, Apple pushed notification summaries that fabricated news headlines, and India's CBSE automated grading system caused a national crisis for 1.7 million students.
+
+**How Title TBD addresses this:**
+
+Title TBD is entirely opt-in. Nobody is forced to install it. The AI runs locally on your own hardware with your own data. There's no corporation deciding what features you need. You choose the model, you choose when to run it, you control the data.
+
+This is a direct structural fix. The problems in the essay all stem from organizations deploying AI without user consent or proper testing. Title TBD inverts this: the user is the operator.
+
+**Effectiveness: HIGH** — Directly solves the consent problem by making AI deployment a user choice, not a corporate mandate.
+
+---
+
+## Problem 6: Environmental Footprint (CO2, Water, Local Impact)
+
+**The issue:** AI chatbot queries use ~10x the energy of a standard search. Google's data centers used 29 billion liters of potable water in 2024. Meta's Georgia facility drew 1.8 million liters daily. Virginia residents face 80% electricity bill increases.
+
+**How Title TBD addresses this:**
+
+Distributing inference across existing PCs means:
+- No new power plants needed for AI
+- No industrial water cooling — PCs use air cooling
+- No new data centers in water-scarce regions
+- No increase in residential electricity bills for neighbors
+- The energy cost is absorbed by existing hardware running existing power draw
+
+The trade-off is efficiency: a data center is more power-efficient per inference than 3 home PCs. But the environmental comparison isn't per-inference — it's total. A data center adds megawatts to the grid and billions of liters of water consumption. Three PCs add nothing to existing resource usage.
+
+**Effectiveness: HIGH** — Eliminates the environmental impact of new AI infrastructure by reusing what exists.
+
+---
+
+## Problem 7: Single Point of Failure
+
+**The issue:** Centralized systems are fragile. If a data center goes down, everyone dependent on it loses access.
+
+**How Title TBD addresses this:**
+
+Title TBD is distributed by design. If one PC goes offline, the others continue operating. The coordinator can redistribute layers to remaining workers. There's no single server, no single company, no single point of failure.
+
+**Effectiveness: HIGH** — Distribution is the core architectural principle. This is inherently solved.
+
+---
+
+## Overall Assessment
+
+| Problem | Effectiveness | Why |
+|---------|:---:|---|
+| Energy/water consumption | HIGH | Distributes compute across existing devices, no new infrastructure |
+| Corporate FOMO spending | MEDIUM | Proves alternatives exist, doesn't change corporate behavior |
+| Wealth concentration | MEDIUM | Stops ongoing extraction, doesn't address existing concentration |
+| Job displacement | LOW | Not a policy tool — requires legislative and economic solutions |
+| Forced AI without consent | HIGH | Fully opt-in, user-controlled, no corporate mandates |
+| Environmental footprint | HIGH | Zero new infrastructure, zero new water/power consumption |
+| Single point of failure | HIGH | Distributed by design — no central dependency |
+
+### What Title TBD Can and Cannot Do
+
+**It can:**
+- Eliminate the need for new AI data center construction
+- Give individuals free, private, local AI access
+- Distribute compute across existing hardware
+- Prove that decentralized AI is technically viable
+- Remove corporate gatekeeping from AI inference
+
+**It cannot:**
+- Solve job displacement (requires policy)
+- Change corporate spending behavior (requires market forces)
+- Redistribute existing wealth concentration (requires systemic reform)
+- Match the raw efficiency of a purpose-built data center per inference
+- Replace large-scale training (only handles inference, not training)
+
+### Conclusion
+
+Title TBD directly addresses the 4 out of 7 problems at HIGH effectiveness — the ones most directly solvable through technical means (energy, environment, consent, reliability). It partially addresses 2 at MEDIUM (corporate behavior, wealth concentration) by proving alternatives exist. It honestly cannot address 1 (job displacement) because that requires political and economic solutions, not engineering.
+
+The core thesis of the original essay — that centralized AI infrastructure is environmentally destructive, economically wasteful, and socially harmful — is valid. Title TBD offers a concrete, working alternative to the infrastructure side of that problem. It won't fix everything. But it proves the solution described in Part 1 of this README — "split it into multiple smaller data centers" — is buildable and functional today.
