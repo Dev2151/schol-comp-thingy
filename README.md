@@ -254,16 +254,6 @@ The worker auto-discovers the coordinator via mDNS (same LAN) or connects to the
 - **Dark mode** — full dark mode support across coordinator and worker
 - **Tailscale support** — works across different networks via Tailscale VPN
 
----
-
-## Platform Requirements
-
-Both coordinator and worker apps are gated to:
-- **OS:** Linux only
-- **Distro:** Arch-based (EndeavourOS, Arch Linux, Manjaro, etc.)
-- **Hardware:** Authorized ThinkPad only (hostname verified)
-
----
 
 ## Tech Stack (Distributed)
 
