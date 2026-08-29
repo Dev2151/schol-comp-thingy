@@ -384,8 +384,8 @@ This app is distributed by design. If one PC goes offline, the others continue o
 
 ## Overall Assessment
 
-| Problem | Effectiveness | Why |
-|---------|:---:|---|
+| Problem | Effectiveness |
+|---------|---|
 | Energy/water consumption | Directly eliminates the core problem — distributes compute across existing devices, no new infrastructure needed |
 | Corporate FOMO spending | Proves the alternative works but won't change corporate behavior alone — requires market forces or regulation |
 | Wealth concentration | Stops ongoing extraction from local AI use but doesn't undo existing inequality |
