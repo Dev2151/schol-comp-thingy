@@ -57,7 +57,7 @@ export default function App() {
   const [logs, setLogs] = useState<string[]>([]);
   const [activeTab, setActiveTab] = useState<Tab>('status');
   const [dark, setDark] = useState(() => {
-    try { return localStorage.getItem('freegrid-worker-dark') === 'true'; } catch { return false; }
+    try { return localStorage.getItem('title-tbd-worker-dark') === 'true'; } catch { return false; }
   });
 
   // Chat state
@@ -98,7 +98,7 @@ export default function App() {
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
-    try { localStorage.setItem('freegrid-worker-dark', String(dark)); } catch {}
+    try { localStorage.setItem('title-tbd-worker-dark', String(dark)); } catch {}
   }, [dark]);
 
   useEffect(() => {
@@ -209,7 +209,7 @@ export default function App() {
                 <polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2" />
               </svg>
             </div>
-            <span className="logo-text">FreeGrid Worker</span>
+            <span className="logo-text">Title TBD Worker</span>
           </div>
         </div>
         <div className="header-right" style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>

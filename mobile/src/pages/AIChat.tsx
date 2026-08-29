@@ -46,7 +46,7 @@ export default function AIChat() {
       });
 
       // Store the pipeline globally for use in chat
-      (window as any).__freegrid_generator = generator;
+      (window as any).__title-tbd_generator = generator;
       setModelStatus('ready');
       setModelProgress('');
     } catch (err: any) {
@@ -70,7 +70,7 @@ export default function AIChat() {
     setIsLoading(true);
 
     try {
-      const generator = (window as any).__freegrid_generator;
+      const generator = (window as any).__title-tbd_generator;
 
       const result = await generator(
         [

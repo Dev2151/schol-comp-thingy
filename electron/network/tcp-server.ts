@@ -7,8 +7,8 @@ import { computeHash } from '../storage/chunker';
 
 const CHUNK_DIR = path.join(
   require('os').homedir(),
-  '.freegrid',
-  'freegrid-storage',
+  '.title-tbd',
+  'title-tbd-storage',
   'chunks'
 );
 

@@ -9,31 +9,31 @@ import * as fs from 'fs';
 // Platform gate: Linux only, Arch-based only, this ThinkPad only
 const ALLOWED_HOSTNAME = 'ty-20nks0qn15';
 if (process.platform !== 'linux') {
-  console.error(`[FreeGrid Worker] Unsupported platform: ${process.platform}. This app only runs on Linux.`);
+  console.error(`[Title TBD Worker] Unsupported platform: ${process.platform}. This app only runs on Linux.`);
   app.quit();
   process.exit(1);
 }
 try {
   const osRelease = fs.readFileSync('/etc/os-release', 'utf-8');
   if (!osRelease.includes('arch') && !osRelease.includes('endeavouros')) {
-    console.error('[FreeGrid Worker] Unsupported distro. This app only runs on Arch-based Linux.');
+    console.error('[Title TBD Worker] Unsupported distro. This app only runs on Arch-based Linux.');
     app.quit();
     process.exit(1);
   }
 } catch {}
 if (os.hostname() !== ALLOWED_HOSTNAME) {
-  console.error(`[FreeGrid Worker] Unauthorized host: ${os.hostname()}. This app only runs on ${ALLOWED_HOSTNAME}.`);
+  console.error(`[Title TBD Worker] Unauthorized host: ${os.hostname()}. This app only runs on ${ALLOWED_HOSTNAME}.`);
   app.quit();
   process.exit(1);
 }
 
 // ============================================================
-// FreeGrid Worker Node — Main Process
+// Title TBD Worker Node — Main Process
 // ============================================================
 
-const DATA_DIR = path.join(os.homedir(), '.freegrid-worker');
+const DATA_DIR = path.join(os.homedir(), '.title-tbd-worker');
 const NODE_ID_FILE = path.join(DATA_DIR, 'node-id');
-const MDNS_SERVICE_TYPE = '_freegrid_tcp';
+const MDNS_SERVICE_TYPE = '_title-tbd_tcp';
 const TCP_DEFAULT_PORT = 9501;
 
 // --- State ---
@@ -414,7 +414,7 @@ let foundViaMdns = false;
 const DEFAULT_COORDINATOR_IP = '100.115.182.3';
 
 function startDiscovery() {
-  log('Searching for FreeGrid coordinator on network...');
+  log('Searching for Title TBD coordinator on network...');
 
   // Priority 1: CLI arg or env var
   const cliIp = getCoordinatorIpArg();
@@ -465,7 +465,7 @@ function startDiscovery() {
 // --- Publish worker service ---
 function publishWorkerService() {
   bonjour.publish({
-    name: `freegrid-worker-${os.hostname()}`,
+    name: `title-tbd-worker-${os.hostname()}`,
     type: MDNS_SERVICE_TYPE,
     port: TCP_DEFAULT_PORT,
     txt: {
@@ -515,7 +515,7 @@ function createWindow() {
   mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
-    title: 'FreeGrid Worker',
+    title: 'Title TBD Worker',
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       contextIsolation: true,

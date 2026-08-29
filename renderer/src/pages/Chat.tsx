@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 
 declare global {
   interface Window {
-    freegrid: any;
+    title-tbd: any;
   }
 }
 
@@ -64,17 +64,17 @@ export default function Chat() {
   const inputRef = useRef<HTMLInputElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const isElectron = typeof window !== 'undefined' && window.freegrid != null;
+  const isElectron = typeof window !== 'undefined' && window.title-tbd != null;
 
   useEffect(() => {
     checkOllama();
     if (isElectron) {
-      window.freegrid.getPipelineState().then((state: any) => {
+      window.title-tbd.getPipelineState().then((state: any) => {
         setWorkerCount(state?.workerLayers?.length || 0);
       }).catch(() => {});
     }
     return () => {
-      if (isElectron) window.freegrid.removeStreamListeners();
+      if (isElectron) window.title-tbd.removeStreamListeners();
     };
   }, []);
 
@@ -120,10 +120,10 @@ export default function Chat() {
       setOllamaStatus({ running: false, error: 'Browser preview mode — Ollama requires the Electron app.' });
       return;
     }
-    const status = await window.freegrid.ollamaStatus();
+    const status = await window.title-tbd.ollamaStatus();
     setOllamaStatus(status);
     if (status.running) {
-      const modelList = await window.freegrid.ollamaListModels();
+      const modelList = await window.title-tbd.ollamaListModels();
       setModels(modelList);
       if (modelList.length > 0 && !selectedModel) {
         setSelectedModel(modelList[0].name);
@@ -131,7 +131,7 @@ export default function Chat() {
     }
     // Load distributable models (all known models)
     try {
-      const distModels = await window.freegrid.getDistributableModels();
+      const distModels = await window.title-tbd.getDistributableModels();
       setDistributableModels(distModels);
     } catch {}
   };
@@ -154,11 +154,11 @@ export default function Chat() {
       // Set up streaming listeners
       const history = messages.map(m => ({ role: m.role, content: m.content }));
 
-      window.freegrid.onStreamToken((token: string) => {
+      window.title-tbd.onStreamToken((token: string) => {
         setStreamingText(prev => prev + token);
       });
 
-      window.freegrid.onStreamDone((fullText: string) => {
+      window.title-tbd.onStreamDone((fullText: string) => {
         if (fullText) {
           setMessages(prev => [...prev, {
             role: 'assistant',
@@ -168,10 +168,10 @@ export default function Chat() {
         }
         setStreamingText('');
         setIsLoading(false);
-        window.freegrid.removeStreamListeners();
+        window.title-tbd.removeStreamListeners();
       });
 
-      window.freegrid.onStreamError((error: string) => {
+      window.title-tbd.onStreamError((error: string) => {
         setMessages(prev => [...prev, {
           role: 'assistant',
           content: `Error: ${error}`,
@@ -179,20 +179,20 @@ export default function Chat() {
         }]);
         setStreamingText('');
         setIsLoading(false);
-        window.freegrid.removeStreamListeners();
+        window.title-tbd.removeStreamListeners();
       });
 
       // Check if we have a distributed pipeline active
-      const pipelineState = await window.freegrid.getPipelineState();
+      const pipelineState = await window.title-tbd.getPipelineState();
       const hasWorkers = pipelineState?.workerLayers?.length > 0;
 
       if (hasWorkers) {
         // Use distributed inference — coordinator + worker(s)
         console.log('[Chat] Using distributed inference across', pipelineState.workerLayers.length + 1, 'nodes');
-        await window.freegrid.runDistributedInference(userMessage.content, selectedModel);
+        await window.title-tbd.runDistributedInference(userMessage.content, selectedModel);
       } else {
         // Single node — use local Ollama
-        await window.freegrid.ollamaChatStream(selectedModel, userMessage.content, history);
+        await window.title-tbd.ollamaChatStream(selectedModel, userMessage.content, history);
       }
     } else {
       // Browser preview — simulate a response
@@ -209,7 +209,7 @@ export default function Chat() {
 
   const handleStop = async () => {
     if (isElectron) {
-      await window.freegrid.ollamaStopStream();
+      await window.title-tbd.ollamaStopStream();
     }
     // Append whatever we have so far
     if (streamingText) {
@@ -221,7 +221,7 @@ export default function Chat() {
     }
     setStreamingText('');
     setIsLoading(false);
-    if (isElectron) window.freegrid.removeStreamListeners();
+    if (isElectron) window.title-tbd.removeStreamListeners();
   };
 
   if (!ollamaStatus.running) {

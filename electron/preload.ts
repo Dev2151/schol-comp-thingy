@@ -1,7 +1,7 @@
 import { contextBridge, ipcRenderer } from 'electron';
 
 // Expose a safe API to the renderer process
-contextBridge.exposeInMainWorld('freegrid', {
+contextBridge.exposeInMainWorld('title-tbd', {
   // --- File Dialog ---
   openFileDialog: () =>
     ipcRenderer.invoke('open-file-dialog'),
@@ -115,7 +115,7 @@ contextBridge.exposeInMainWorld('freegrid', {
   },
 });
 
-export interface FreeGridAPI {
+export interface Title TBDAPI {
   uploadFile: (filePath: string, password: string) => Promise<any>;
   downloadFile: (fileId: string, outputPath: string, password: string) => Promise<any>;
   listFiles: () => Promise<any[]>;

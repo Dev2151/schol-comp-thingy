@@ -1,5 +1,5 @@
 // ============================================================
-// FreeGrid — Distributed Inference Engine
+// Title TBD — Distributed Inference Engine
 // Coordinator runs inference, worker sees live progress
 // ============================================================
 

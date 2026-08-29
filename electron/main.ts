@@ -7,20 +7,20 @@ import { execSync } from 'child_process';
 // Platform gate: Linux only, Arch-based only, this ThinkPad only
 const ALLOWED_HOSTNAME = 'ty-20nks0qn15';
 if (process.platform !== 'linux') {
-  console.error(`[FreeGrid] Unsupported platform: ${process.platform}. This app only runs on Linux.`);
+  console.error(`[Title TBD] Unsupported platform: ${process.platform}. This app only runs on Linux.`);
   app.quit();
   process.exit(1);
 }
 try {
   const osRelease = fs.readFileSync('/etc/os-release', 'utf-8');
   if (!osRelease.includes('arch') && !osRelease.includes('endeavouros')) {
-    console.error('[FreeGrid] Unsupported distro. This app only runs on Arch-based Linux.');
+    console.error('[Title TBD] Unsupported distro. This app only runs on Arch-based Linux.');
     app.quit();
     process.exit(1);
   }
 } catch {}
 if (os.hostname() !== ALLOWED_HOSTNAME) {
-  console.error(`[FreeGrid] Unauthorized host: ${os.hostname()}. This app only runs on ${ALLOWED_HOSTNAME}.`);
+  console.error(`[Title TBD] Unauthorized host: ${os.hostname()}. This app only runs on ${ALLOWED_HOSTNAME}.`);
   app.quit();
   process.exit(1);
 }
@@ -28,7 +28,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { registerIpcHandlers } from './ipc-handlers';
 import { initNetworkManager } from './network/manager';
 
-const DATA_DIR = path.join(os.homedir(), '.freegrid');
+const DATA_DIR = path.join(os.homedir(), '.title-tbd');
 const NODE_ID_FILE = path.join(DATA_DIR, 'node-id');
 
 function getOrCreateNodeId(): string {
@@ -47,7 +47,7 @@ function createWindow(): void {
     height: 800,
     minWidth: 800,
     minHeight: 600,
-    title: 'FreeGrid',
+    title: 'Title TBD',
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       contextIsolation: true,

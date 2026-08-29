@@ -10,7 +10,7 @@ import { encryptToBuffer, decryptFromBuffer, deriveKey, generateSalt } from './e
  * Creates it if it doesn't exist.
  */
 function getStorageDir(dataDir: string): string {
-  const storageDir = path.join(dataDir, 'freegrid-storage');
+  const storageDir = path.join(dataDir, 'title-tbd-storage');
   if (!fs.existsSync(storageDir)) {
     fs.mkdirSync(storageDir, { recursive: true });
   }

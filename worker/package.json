@@ -1,7 +1,7 @@
 {
-  "name": "freegrid-worker",
+  "name": "title-tbd-worker",
   "version": "0.2.0",
-  "description": "FreeGrid Worker Node — contributes RAM and CPU to distributed inference",
+  "description": "Title TBD Worker Node — contributes RAM and CPU to distributed inference",
   "main": "dist/main.js",
   "scripts": {
     "build": "tsc",

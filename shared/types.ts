@@ -1,5 +1,5 @@
 // ============================================================
-// FreeGrid — Shared Types
+// Title TBD — Shared Types
 // Used by both desktop (Electron) and mobile (PWA) clients
 // ============================================================
 
@@ -114,4 +114,4 @@ export const HEARTBEAT_INTERVAL = 30000; // 30 seconds
 export const NODE_TIMEOUT = 90000; // 3x heartbeat = 90 seconds
 export const RELAY_DEFAULT_PORT = 9500;
 export const TCP_DEFAULT_PORT = 9501;
-export const MDNS_SERVICE_TYPE = '_freegrid._tcp';
+export const MDNS_SERVICE_TYPE = '_title-tbd._tcp';

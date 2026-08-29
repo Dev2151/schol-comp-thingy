@@ -6,7 +6,7 @@ const CHUNKER = require('../electron/storage/chunker');
 const ENCRYPTOR = require('../electron/storage/encryptor');
 const MANIFEST = require('../electron/storage/manifest');
 
-const DATA_DIR = '/tmp/freegrid-test-data';
+const DATA_DIR = '/tmp/title-tbd-test-data';
 let passed = 0;
 let failed = 0;
 
@@ -77,7 +77,7 @@ async function main() {
 
   // ===== 5: Full Roundtrip =====
   section('Full Roundtrip');
-  const origData = fs.readFileSync('/tmp/freegrid-test/medium.bin');
+  const origData = fs.readFileSync('/tmp/title-tbd-test/medium.bin');
   const { manifest: m2, fileId: fid2, salt: s2 } = MANIFEST.createManifest('medium.bin', 'application/octet-stream', origData.length);
   const fileChunks = CHUNKER.splitIntoChunks(origData, m2.chunkSize);
   ok(fileChunks.length > 1, `${origData.length} bytes → ${fileChunks.length} chunks`);
@@ -98,7 +98,7 @@ async function main() {
   eq(lm.chunks.length, fileChunks.length, 'Stored all chunks');
   const roundTripChunks: any[] = [];
   for (const cm of lm.chunks) {
-    const fp = path.join(DATA_DIR, 'freegrid-storage', 'chunks', fid2, `chunk_${String(cm.chunkIndex).padStart(4, '0')}.enc`);
+    const fp = path.join(DATA_DIR, 'title-tbd-storage', 'chunks', fid2, `chunk_${String(cm.chunkIndex).padStart(4, '0')}.enc`);
     ok(fs.existsSync(fp), `Chunk file ${cm.chunkIndex} exists`);
     const ed = fs.readFileSync(fp);
     const ck = ENCRYPTOR.deriveKey('rt-pass', s2);
@@ -140,7 +140,7 @@ async function main() {
     { name: 'big.txt', size: 1000000 },
     { name: 'huge.txt', size: 5000000 },
   ];
-  const stressDir = '/tmp/freegrid-stress';
+  const stressDir = '/tmp/title-tbd-stress';
   if (fs.existsSync(stressDir)) fs.rmSync(stressDir, { recursive: true });
   fs.mkdirSync(stressDir, { recursive: true });
 
@@ -161,7 +161,7 @@ async function main() {
     const lm2 = MANIFEST.loadManifest(stressDir, sfid);
     const rc: any[] = [];
     for (const cm of lm2.chunks) {
-      const fp = path.join(stressDir, 'freegrid-storage', 'chunks', sfid, `chunk_${String(cm.chunkIndex).padStart(4, '0')}.enc`);
+      const fp = path.join(stressDir, 'title-tbd-storage', 'chunks', sfid, `chunk_${String(cm.chunkIndex).padStart(4, '0')}.enc`);
       const ed = fs.readFileSync(fp);
       const k = ENCRYPTOR.deriveKey('stress', ss);
       rc.push({ index: cm.chunkIndex, data: ENCRYPTOR.decryptFromBuffer(ed, k), size: 0 });

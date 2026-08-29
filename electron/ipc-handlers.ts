@@ -26,7 +26,7 @@ import { RELAY_DEFAULT_PORT } from '../shared/types';
 import { assignLayers, sendLayerAssignment, runDistributedInference, getPipelineState } from './ai/distributed';
 
 // Persistent data directory
-const DATA_DIR = path.join(os.homedir(), '.freegrid');
+const DATA_DIR = path.join(os.homedir(), '.title-tbd');
 const NODE_ID_FILE = path.join(DATA_DIR, 'node-id');
 
 function ensureDataDir(): void {
@@ -121,7 +121,7 @@ export function registerIpcHandlers(mainWindow: BrowserWindow): void {
 
         for (const chunkMeta of manifest.chunks) {
           // Try loading from local storage first
-          const chunksDir = path.join(DATA_DIR, 'freegrid-storage', 'chunks', fileId);
+          const chunksDir = path.join(DATA_DIR, 'title-tbd-storage', 'chunks', fileId);
           const fileName = `chunk_${String(chunkMeta.chunkIndex).padStart(4, '0')}.enc`;
           const filePath = path.join(chunksDir, fileName);
 

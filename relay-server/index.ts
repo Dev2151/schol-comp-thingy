@@ -201,7 +201,7 @@ setInterval(() => {
 // --- Start ---
 
 server.listen(PORT, '0.0.0.0', () => {
-  console.log(`\n  ⬡ FreeGrid Relay Server`);
+  console.log(`\n  ⬡ Title TBD Relay Server`);
   console.log(`  ──────────────────────`);
   console.log(`  Port:     ${PORT}`);
   console.log(`  Status:   http://localhost:${PORT}/status`);

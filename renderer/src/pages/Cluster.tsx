@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 declare global {
   interface Window {
-    freegrid: any;
+    title-tbd: any;
   }
 }
 
@@ -37,15 +37,15 @@ export default function Cluster() {
   const [nodes, setNodes] = useState<NodeInfo[]>([]);
   const [sysInfo, setSysInfo] = useState<SystemInfo | null>(null);
   const [modelName] = useState<string>('gemma2:2b');
-  const isElectron = typeof window !== 'undefined' && window.freegrid != null;
+  const isElectron = typeof window !== 'undefined' && window.title-tbd != null;
 
   useEffect(() => {
     if (!isElectron) return;
     const loadData = async () => {
       try {
         const [nodesList, sys] = await Promise.all([
-          window.freegrid.getConnectedNodes(),
-          window.freegrid.getSystemInfo(),
+          window.title-tbd.getConnectedNodes(),
+          window.title-tbd.getSystemInfo(),
         ]);
         setNodes(nodesList);
         setSysInfo(sys);
@@ -54,10 +54,10 @@ export default function Cluster() {
       }
     };
     loadData();
-    window.freegrid.onNodeUpdate((updatedNodes: NodeInfo[]) => {
+    window.title-tbd.onNodeUpdate((updatedNodes: NodeInfo[]) => {
       setNodes(updatedNodes);
     });
-    return () => { window.freegrid.removeNodeListener(); };
+    return () => { window.title-tbd.removeNodeListener(); };
   }, [isElectron]);
 
   // Use real data from nodes, or sysInfo for this PC

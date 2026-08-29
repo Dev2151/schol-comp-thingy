@@ -1,7 +1,7 @@
 {
-  "name": "freegrid-relay",
+  "name": "title-tbd-relay",
   "version": "0.1.0",
-  "description": "FreeGrid relay server for node discovery and chunk proxying",
+  "description": "Title TBD relay server for node discovery and chunk proxying",
   "main": "index.js",
   "scripts": {
     "start": "tsx index.ts",

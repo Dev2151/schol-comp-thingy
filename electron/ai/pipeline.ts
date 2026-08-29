@@ -1,5 +1,5 @@
 // ============================================================
-// FreeGrid — Distributed Inference Pipeline
+// Title TBD — Distributed Inference Pipeline
 // Splits model layers across coordinator + workers based on RAM
 // ============================================================
 

@@ -1,5 +1,5 @@
 /**
- * FreeGrid Ollama Stress Test & Benchmark
+ * Title TBD Ollama Stress Test & Benchmark
  * Tests AI integration with various models and prompt sizes
  */
 
@@ -118,7 +118,7 @@ async function waitForModel(model: string, maxWaitMs = 120000): Promise<void> {
 
 async function main() {
   console.log('╔══════════════════════════════════════════════╗');
-  console.log('║   FreeGrid Ollama Stress Test & Benchmark   ║');
+  console.log('║   Title TBD Ollama Stress Test & Benchmark   ║');
   console.log('╚══════════════════════════════════════════════╝\n');
 
   // 1. Check Ollama status

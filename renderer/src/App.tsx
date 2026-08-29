@@ -8,7 +8,7 @@ import Settings from './pages/Settings';
 
 declare global {
   interface Window {
-    freegrid: any;
+    title-tbd: any;
   }
 }
 
@@ -16,7 +16,7 @@ type Page = 'chat' | 'dashboard' | 'cluster' | 'pipeline' | 'models' | 'settings
 
 export const ThemeContext = createContext<{ dark: boolean; toggle: () => void }>({ dark: false, toggle: () => {} });
 
-const isElectron = typeof window !== 'undefined' && window.freegrid != null;
+const isElectron = typeof window !== 'undefined' && window.title-tbd != null;
 
 function NavIcon({ d, size = 20 }: { d: string; size?: number }) {
   return (
@@ -47,18 +47,18 @@ function formatBytes(bytes: number): string {
 export default function App() {
   const [currentPage, setCurrentPage] = useState<Page>('chat');
   const [dark, setDark] = useState(() => {
-    try { return localStorage.getItem('freegrid-dark') === 'true'; } catch { return false; }
+    try { return localStorage.getItem('title-tbd-dark') === 'true'; } catch { return false; }
   });
   const [sysInfo, setSysInfo] = useState<{ hostname: string; totalRam: number; freeRam: number } | null>(null);
 
   useEffect(() => {
     if (!isElectron) return;
-    window.freegrid.getSystemInfo().then((info: any) => setSysInfo(info));
+    window.title-tbd.getSystemInfo().then((info: any) => setSysInfo(info));
   }, []);
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
-    try { localStorage.setItem('freegrid-dark', String(dark)); } catch {}
+    try { localStorage.setItem('title-tbd-dark', String(dark)); } catch {}
   }, [dark]);
 
   const toggleDark = () => setDark(d => !d);

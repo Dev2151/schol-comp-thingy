@@ -34,7 +34,7 @@ export default function Settings() {
           <div className="settings-row">
             <div>
               <div className="settings-row-label">Auto-discover nodes</div>
-              <div className="settings-row-desc">Automatically find FreeGrid nodes on your network</div>
+              <div className="settings-row-desc">Automatically find Title TBD nodes on your network</div>
             </div>
             <button
               className={`toggle ${autoDiscover ? 'active' : ''}`}

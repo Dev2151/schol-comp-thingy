@@ -1,5 +1,5 @@
 /**
- * FreeGrid Comprehensive Stress Test
+ * Title TBD Comprehensive Stress Test
  * Tests relay, file storage, and network end-to-end
  */
 
@@ -13,7 +13,7 @@ function ok(cond: boolean, msg: string) {
 
 async function main() {
   console.log('╔══════════════════════════════════════════════════╗');
-  console.log('║   FreeGrid Comprehensive Stress Test            ║');
+  console.log('║   Title TBD Comprehensive Stress Test            ║');
   console.log('╚══════════════════════════════════════════════════╝\n');
 
   // ===== 1: Relay Server Stress =====

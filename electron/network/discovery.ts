@@ -14,7 +14,7 @@ export function publishNode(nodeId: string, port: number = TCP_DEFAULT_PORT): vo
   const hostname = os.hostname();
 
   publishedService = bonjour.publish({
-    name: `freegrid-${hostname}`,
+    name: `title-tbd-${hostname}`,
     type: MDNS_SERVICE_TYPE.replace('.', ''), // bonjour-service expects type without leading dot
     port,
     txt: {
@@ -28,7 +28,7 @@ export function publishNode(nodeId: string, port: number = TCP_DEFAULT_PORT): vo
 }
 
 /**
- * Start browsing for other FreeGrid nodes on the local network.
+ * Start browsing for other Title TBD nodes on the local network.
  * Calls onNodeFound when a new node is discovered.
  */
 export function startDiscovery(
@@ -37,7 +37,7 @@ export function startDiscovery(
 ): void {
   const browser = bonjour.find({ type: MDNS_SERVICE_TYPE.replace('.', '') }, (service: Service) => {
     // Ignore our own service
-    if (service.name?.startsWith(`freegrid-${os.hostname()}`)) {
+    if (service.name?.startsWith(`title-tbd-${os.hostname()}`)) {
       return;
     }
 
@@ -68,7 +68,7 @@ export function startDiscovery(
   // Note: Service departure tracking is handled by the heartbeat/timeout mechanism
   // in the network manager, not via mDNS events (which are unreliable for departures)
 
-  console.log('[mDNS] Started browsing for FreeGrid nodes...');
+  console.log('[mDNS] Started browsing for Title TBD nodes...');
 }
 
 /**

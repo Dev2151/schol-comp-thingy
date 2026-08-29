@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 declare global {
   interface Window {
-    freegrid: any;
+    title-tbd: any;
   }
 }
 
@@ -41,14 +41,14 @@ export default function Pipeline() {
   const [pipelineState, setPipelineState] = useState<PipelineState | null>(null);
   const [isAssigning, setIsAssigning] = useState(false);
   const [selectedModel, setSelectedModel] = useState('gemma2:2b');
-  const isElectron = typeof window !== 'undefined' && window.freegrid != null;
+  const isElectron = typeof window !== 'undefined' && window.title-tbd != null;
 
   useEffect(() => {
     if (!isElectron) return;
     const load = async () => {
       const [sys, state] = await Promise.all([
-        window.freegrid.getSystemInfo(),
-        window.freegrid.getPipelineState(),
+        window.title-tbd.getSystemInfo(),
+        window.title-tbd.getPipelineState(),
       ]);
       setSysInfo(sys);
       setPipelineState(state);
@@ -60,8 +60,8 @@ export default function Pipeline() {
     setIsAssigning(true);
     try {
       if (isElectron) {
-        const result = await window.freegrid.assignModelLayers(selectedModel);
-        const state = await window.freegrid.getPipelineState();
+        const result = await window.title-tbd.assignModelLayers(selectedModel);
+        const state = await window.title-tbd.getPipelineState();
         setPipelineState(state);
       } else {
         // Browser preview — simulate layer split

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 declare global {
   interface Window {
-    freegrid: any;
+    title-tbd: any;
   }
 }
 
@@ -37,7 +37,7 @@ export default function Models() {
   const [models, setModels] = useState<OllamaModel[]>([]);
   const [selected, setSelected] = useState<string>('');
   const [sysInfo, setSysInfo] = useState<SystemInfo | null>(null);
-  const isElectron = typeof window !== 'undefined' && window.freegrid != null;
+  const isElectron = typeof window !== 'undefined' && window.title-tbd != null;
 
   useEffect(() => {
     const load = async () => {
@@ -47,12 +47,12 @@ export default function Models() {
         return;
       }
       const [status, sys] = await Promise.all([
-        window.freegrid.ollamaStatus(),
-        window.freegrid.getSystemInfo(),
+        window.title-tbd.ollamaStatus(),
+        window.title-tbd.getSystemInfo(),
       ]);
       setSysInfo(sys);
       if (status.running) {
-        const list = await window.freegrid.ollamaListModels();
+        const list = await window.title-tbd.ollamaListModels();
         setModels(list);
         if (list.length > 0) setSelected(list[0].name);
       }

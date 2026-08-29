@@ -1,12 +1,12 @@
-# ⬡ FreeGrid
+# ⬡ Title TBD
 
 **Distributed storage and computing platform** — spread your data across many devices instead of relying on centralized data centers.
 
 ---
 
-## What is FreeGrid?
+## What is Title TBD?
 
-FreeGrid is a peer-to-peer application that turns multiple computers and phones into a distributed storage network. Instead of one massive data center consuming megawatts of power, FreeGrid distributes storage and compute across many small devices — each contributing just a tiny fraction of resources.
+Title TBD is a peer-to-peer application that turns multiple computers and phones into a distributed storage network. Instead of one massive data center consuming megawatts of power, Title TBD distributes storage and compute across many small devices — each contributing just a tiny fraction of resources.
 
 ### Key Features
 
@@ -79,7 +79,7 @@ npm run relay
 
 The relay server starts on port 9500. You'll see:
 ```
-  ⬡ FreeGrid Relay Server
+  ⬡ Title TBD Relay Server
   ──────────────────────
   Port:     9500
   Status:   http://localhost:9500/status
@@ -120,7 +120,7 @@ Open `http://localhost:5174` on your phone (same network).
 ## Project Structure
 
 ```
-freegrid/
+title-tbd/
 ├── package.json              # Root project config
 ├── tsconfig.json             # TypeScript config (renderer)
 ├── tsconfig.electron.json    # TypeScript config (Electron main)
@@ -144,7 +144,9 @@ freegrid/
 │   │   ├── tcp-client.ts     # TCP client for chunks
 │   │   └── relay-client.ts   # Relay server client
 │   └── ai/
-│       └── ollama-client.ts  # Ollama API wrapper
+│       ├── ollama-client.ts  # Ollama API wrapper
+│       ├── pipeline.ts       # Inference pipeline
+│       └── distributed.ts    # Distributed inference across nodes
 │
 ├── renderer/                 # Electron renderer (React)
 │   ├── index.html
@@ -154,10 +156,23 @@ freegrid/
 │       ├── main.tsx
 │       ├── pages/
 │       │   ├── Dashboard.tsx  # Node overview + QR code
-│       │   ├── Files.tsx      # Upload/download files
-│       │   └── AIChat.tsx     # Local AI chat
+│       │   ├── Chat.tsx       # AI chat interface
+│       │   ├── Cluster.tsx    # Node inventory
+│       │   ├── Pipeline.tsx   # Inference pipeline view
+│       │   ├── Models.tsx     # Model catalog
+│       │   └── Settings.tsx   # App settings
 │       └── styles/
 │           └── app.css
+│
+├── worker/                   # Worker node Electron app
+│   ├── main.ts               # Worker entry point
+│   ├── preload.ts            # Worker IPC bridge
+│   ├── package.json
+│   ├── tsconfig.json
+│   ├── vite.config.ts
+│   └── renderer/
+│       └── src/
+│           └── App.tsx       # Worker UI
 │
 ├── mobile/                   # Mobile PWA
 │   ├── index.html
@@ -221,7 +236,7 @@ freegrid/
 
 ### Setup
 1. Start relay server
-2. Open FreeGrid on 2-3 laptops → nodes auto-discover
+2. Open Title TBD on 2-3 laptops → nodes auto-discover
 3. Each offers 1-2GB of storage
 4. Desktop displays QR code on Dashboard
 
@@ -248,7 +263,7 @@ freegrid/
 
 ## Energy Comparison
 
-| | Traditional Data Center | FreeGrid (3 nodes) |
+| | Traditional Data Center | Title TBD (3 nodes) |
 |---|---|---|
 | Power | ~1 MW+ | ~150W (3 × 50W) |
 | Cooling | Massive water usage | Standard room temperature |
@@ -279,3 +294,147 @@ freegrid/
 ## License
 
 MIT
+
+---
+---
+
+# Part 2: Distributed AI Inference
+
+## What is this?
+
+Title TBD now supports **distributed AI inference** — running large language models across multiple PCs on the same network by splitting model layers by available RAM. A coordinator PC orchestrates the inference while worker PCs process their assigned layers, combining RAM to run models that wouldn't fit on a single machine.
+
+---
+
+## How Distributed Inference Works
+
+```
+┌──────────────────────────────────────────────────┐
+│                  Coordinator PC                    │
+│  ┌─────────────┐  ┌──────────────────────────┐   │
+│  │  Chat UI    │  │  TCP Server (port 9501)   │   │
+│  │  Pipeline   │◄─┤  Model Layer Splitter     │   │
+│  │  Cluster    │  │  Token Stream Broadcaster │   │
+│  └─────────────┘  └──────────┬───────────────┘   │
+│                               │                    │
+└───────────────────────────────┼────────────────────┘
+                                │ TCP / Tailscale
+                    ┌───────────┴───────────┐
+                    ▼                       ▼
+           ┌──────────────┐       ┌──────────────┐
+           │  Worker PC 1  │       │  Worker PC 2  │
+           │  Layers 0-11  │       │  Layers 12-23 │
+           │  Live tokens  │       │  Live tokens  │
+           └──────────────┘       └──────────────┘
+```
+
+### Layer Splitting
+
+The coordinator automatically splits model layers based on each PC's available RAM:
+
+| Model | Total Layers | Est. Size | Coordinator (10GB free) | Worker 1 (8GB free) | Worker 2 (6GB free) |
+|-------|-------------|-----------|------------------------|--------------------|--------------------|
+| gemma2:2b | 18 | 1.6 GB | 18 layers | — | — |
+| gemma2:9b | 26 | 5.4 GB | 7 layers | 10 layers | 9 layers |
+| llama3.1:8b | 32 | 4.9 GB | 12 layers | 11 layers | 9 layers |
+| qwen2.5:7b | 28 | 4.7 GB | 11 layers | 10 layers | 7 layers |
+| mistral:7b | 32 | 4.4 GB | 12 layers | 12 layers | 8 layers |
+| gemma2:27b | 46 | 16 GB | 14 layers | 16 layers | 16 layers |
+
+### Protocol
+
+1. **Worker connects** via TCP to coordinator (auto-discovered via mDNS or Tailscale)
+2. **RAM query** — coordinator requests each worker's free memory
+3. **Layer proposal** — coordinator calculates proportional split
+4. **Assignment** — coordinator sends `ASSIGN_LAYERS` with model name and range
+5. **Inference** — user sends prompt → coordinator streams tokens → broadcasts progress to workers
+6. **Stop** — stopping on coordinator broadcasts `INFER_STOP` to all workers
+
+---
+
+## Setup (Multi-PC)
+
+### Prerequisites
+
+- **Node.js 18+** on all PCs
+- **Ollama** installed on all PCs with the same models pulled
+- **Tailscale** (recommended) or same WiFi network
+
+### Coordinator PC
+
+```bash
+npm install
+npx tsc -p tsconfig.electron.json
+npx vite build
+npx electron .
+```
+
+### Worker PC
+
+```bash
+cd worker
+npm install
+npx tsc
+npx vite build
+npx electron .
+```
+
+The worker auto-discovers the coordinator via mDNS (same LAN) or connects to the hardcoded Tailscale IP.
+
+### Adding a New PC
+
+1. Install Node.js, Ollama, and pull the same models
+2. Clone this repo
+3. Run the worker setup
+4. The coordinator will detect it and propose a new layer split
+
+---
+
+## Supported Models
+
+| Model | Parameters | Layers | RAM Needed | Distributed? |
+|-------|-----------|--------|------------|-------------|
+| gemma2:2b | 2B | 18 | ~1.6 GB | No (fits on one PC) |
+| phi3:mini | 3.8B | 24 | ~2.2 GB | No |
+| llama3.2:3b | 3.2B | 28 | ~2.0 GB | No |
+| qwen2.5:7b | 7B | 28 | ~4.7 GB | Maybe |
+| mistral:7b | 7B | 32 | ~4.4 GB | Maybe |
+| llama3.1:8b | 8B | 32 | ~4.9 GB | Maybe |
+| gemma2:9b | 9B | 26 | ~5.4 GB | Yes |
+| gemma2:27b | 27B | 46 | ~16 GB | Yes (needs 2+ PCs) |
+| llama3.1:70b | 70B | 80 | ~42 GB | Yes (needs 3+ PCs) |
+
+---
+
+## Features
+
+- **Auto-detection** — workers appear in the cluster automatically
+- **Auto-split** — layers are distributed proportionally based on free RAM
+- **Live activity** — worker windows show real-time token streaming during inference
+- **Stop propagation** — stopping generation on coordinator stops all workers
+- **Model catalog** — browse available models with layer counts and RAM estimates
+- **Dark mode** — full dark mode support across coordinator and worker
+- **Tailscale support** — works across different networks via Tailscale VPN
+
+---
+
+## Platform Requirements
+
+Both coordinator and worker apps are gated to:
+- **OS:** Linux only
+- **Distro:** Arch-based (EndeavourOS, Arch Linux, Manjaro, etc.)
+- **Hardware:** Authorized ThinkPad only (hostname verified)
+
+---
+
+## Tech Stack (Distributed)
+
+| Component | Technology |
+|-----------|-----------|
+| Coordinator | Electron + React + TypeScript |
+| Worker | Electron + React + TypeScript |
+| Networking | TCP sockets with length-prefixed JSON |
+| Discovery | mDNS (bonjour-service) + Tailscale fallback |
+| AI Backend | Ollama API (local inference) |
+| Layer Splitting | Custom proportional allocator based on RAM |
+| Token Streaming | Real-time broadcast to all connected workers |

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 declare global {
   interface Window {
-    freegrid: any;
+    title-tbd: any;
   }
 }
 
@@ -43,21 +43,21 @@ export default function Dashboard() {
   const [nodes, setNodes] = useState<NodeInfo[]>([]);
   const [modelName, setModelName] = useState<string>('None');
   const [sysInfo, setSysInfo] = useState<SystemInfo | null>(null);
-  const isElectron = typeof window !== 'undefined' && window.freegrid != null;
+  const isElectron = typeof window !== 'undefined' && window.title-tbd != null;
 
   useEffect(() => {
     if (!isElectron) return;
     const loadData = async () => {
       try {
         const [nodesList, model, sys] = await Promise.all([
-          window.freegrid.getConnectedNodes(),
-          window.freegrid.ollamaStatus(),
-          window.freegrid.getSystemInfo(),
+          window.title-tbd.getConnectedNodes(),
+          window.title-tbd.ollamaStatus(),
+          window.title-tbd.getSystemInfo(),
         ]);
         setNodes(nodesList);
         setSysInfo(sys);
         if (model.running) {
-          const models = await window.freegrid.ollamaListModels();
+          const models = await window.title-tbd.ollamaListModels();
           if (models.length > 0) setModelName(models[0].name);
         }
       } catch (err) {
@@ -65,10 +65,10 @@ export default function Dashboard() {
       }
     };
     loadData();
-    window.freegrid.onNodeUpdate((updatedNodes: NodeInfo[]) => {
+    window.title-tbd.onNodeUpdate((updatedNodes: NodeInfo[]) => {
       setNodes(updatedNodes);
     });
-    return () => { window.freegrid.removeNodeListener(); };
+    return () => { window.title-tbd.removeNodeListener(); };
   }, [isElectron]);
 
   const onlineNodes = isElectron ? nodes.filter(n => n.status === 'online').length : 1;
