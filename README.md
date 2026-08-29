@@ -140,7 +140,7 @@ this solution is what I feel possible in the constraints which you have given be
 
 ## What is this?
 
-Title TBD now supports **distributed AI inference** — running large language models across multiple PCs on the same network by splitting model layers by available RAM. A coordinator PC orchestrates the inference while worker PCs process their assigned layers, combining RAM to run models that wouldn't fit on a single machine.
+This app now supports **distributed AI inference** — running large language models across multiple PCs on the same network by splitting model layers by available RAM. A coordinator PC orchestrates the inference while worker PCs process their assigned layers, combining RAM to run models that wouldn't fit on a single machine.
 
 ---
 
@@ -272,7 +272,7 @@ The worker auto-discovers the coordinator via mDNS (same LAN) or connects to the
 
 # Part 3: How Effectively Does Title TBD Address These Problems?
 
-This section evaluates Title TBD against each core problem identified in the original essay.
+This section evaluates this app against each core problem identified in the original essay.
 
 ---
 
@@ -280,18 +280,18 @@ This section evaluates Title TBD against each core problem identified in the ori
 
 **The issue:** A single AI data center uses ~1 MW+ of power and billions of liters of potable water annually. Google reported a 48% increase in greenhouse gas emissions since 2019, and data centers in Virginia consume 39% of the state's total electricity.
 
-**How Title TBD addresses this:**
+**How this app addresses this:**
 
-| Metric | Traditional Data Center | Title TBD (3 PCs) |
+| Metric | Traditional Data Center | this app (3 PCs) |
 |--------|------------------------|--------------------|
 | Power | ~1 MW+ | ~150W (3 × 50W) |
 | Cooling | Massive water usage | Standard room temperature |
 | New infrastructure needed | Yes — new facilities | No — uses existing PCs |
 | Water consumption | Billions of liters/year | Zero |
 
-Title TBD doesn't build new data centers. It repurposes hardware people already own. A typical home PC uses 50-200W under load versus a data center's megawatts. The distributed approach means no single facility needs industrial cooling, no water is consumed for server farms, and no new construction is required.
+This app doesn't build new data centers. It repurposes hardware people already own. A typical home PC uses 50-200W under load versus a data center's megawatts. The distributed approach means no single facility needs industrial cooling, no water is consumed for server farms, and no new construction is required.
 
-**Effectiveness: Directly eliminates the core infrastructure problem** by distributing compute across existing devices instead of building new data centers. This is the problem Title TBD was designed to solve, and it solves it.
+**Effectiveness: Directly eliminates the core infrastructure problem** by distributing compute across existing devices instead of building new data centers. This is the problem this app was designed to solve, and it solves it.
 
 ---
 
@@ -299,13 +299,13 @@ Title TBD doesn't build new data centers. It repurposes hardware people already 
 
 **The issue:** 64% of CEOs admitted fear of falling behind drove AI investments before understanding business impact. $650 billion was spent in 2025, contributing essentially zero to GDP growth. 95% of enterprise AI pilots failed.
 
-**How Title TBD addresses this:**
+**How this app addresses this:**
 
-Title TBD removes the dependency on corporate AI infrastructure entirely. Instead of companies spending billions on centralized compute that mostly fails, Title TBD lets individuals and small groups run models locally for free. There is no subscription, no API call, no vendor lock-in. The hardware already exists in people's homes and offices.
+This app removes the dependency on corporate AI infrastructure entirely. Instead of companies spending billions on centralized compute that mostly fails, this app lets individuals and small groups run models locally for free. There is no subscription, no API call, no vendor lock-in. The hardware already exists in people's homes and offices.
 
 This doesn't fix corporate FOMO directly — companies will still overspend. But it proves the alternative works: distributed, local, free AI inference is technically viable today. If more organizations adopted this approach, the pressure to build massive centralized facilities would decrease.
 
-**Effectiveness: Proves an alternative exists but won't change corporate behavior on its own** — Title TBD shows that distributed local AI works technically, but companies will continue overspending on centralized infrastructure until market forces or regulation push them otherwise.
+**Effectiveness: Proves an alternative exists but won't change corporate behavior on its own** — this app shows that distributed local AI works technically, but companies will continue overspending on centralized infrastructure until market forces or regulation push them otherwise.
 
 ---
 
@@ -313,9 +313,9 @@ This doesn't fix corporate FOMO directly — companies will still overspend. But
 
 **The issue:** The top 10% of US households gained $5 trillion in a single quarter. The 10 richest tech executives reached $2.5 trillion combined. Over 50 new AI billionaires were created in 2025. The richest 1% held 31.7% of all national wealth — the highest ever recorded.
 
-**How Title TBD addresses this:**
+**How this app addresses this:**
 
-Title TBD is open source and free. The compute comes from hardware people already own. The models are open source (Gemma, Llama, Mistral, Qwen). No company profits from your inference — not Google, not OpenAI, not Meta. Your data stays on your machine.
+This app is open source and free. The compute comes from hardware people already own. The models are open source (Gemma, Llama, Mistral, Qwen). No company profits from your inference — not Google, not OpenAI, not Meta. Your data stays on your machine.
 
 This doesn't redistribute wealth, but it stops the wealth extraction loop. When AI runs locally, there's no API fee going to a $2.5 trillion company. For schools, small businesses, and developing regions, this means access to AI without paying the toll.
 
@@ -327,13 +327,13 @@ This doesn't redistribute wealth, but it stops the wealth extraction loop. When 
 
 **The issue:** Entry-level jobs and internships dropped 15%, applicant pools increased 26%, and 50% of students feel uncertain about AI's impact on their careers. Trade school enrollment hit a 30-year high as students flee tech.
 
-**How Title TBD addresses this:**
+**How this app addresses this:**
 
-This is the hardest problem to solve with software. Title TBD doesn't create jobs — it distributes the work of running AI across existing hardware, which could theoretically reduce the need for data center construction jobs (electricians, HVAC technicians, facility managers). However, it could also reduce the barrier to AI adoption, making the automation problem worse.
+This is the hardest problem to solve with software. this app doesn't create jobs — it distributes the work of running AI across existing hardware, which could theoretically reduce the need for data center construction jobs (electricians, HVAC technicians, facility managers). However, it could also reduce the barrier to AI adoption, making the automation problem worse.
 
-The honest assessment: Title TBD is not designed to solve job displacement. It's designed to solve the infrastructure and energy problem. Job displacement requires policy solutions, not just technical ones.
+The honest assessment: this app is not designed to solve job displacement. It's designed to solve the infrastructure and energy problem. Job displacement requires policy solutions, not just technical ones.
 
-**Effectiveness: Not solvable through software alone** — Job displacement is a systemic economic and political problem. Title TBD distributes AI compute, but whether that creates or destroys jobs depends on policy, education, and labor regulation, not on how inference is run.
+**Effectiveness: Not solvable through software alone** — Job displacement is a systemic economic and political problem. this app distributes AI compute, but whether that creates or destroys jobs depends on policy, education, and labor regulation, not on how inference is run.
 
 ---
 
@@ -341,13 +341,13 @@ The honest assessment: Title TBD is not designed to solve job displacement. It's
 
 **The issue:** Starbucks rolled out broken AI inventory tools, Apple pushed notification summaries that fabricated news headlines, and India's CBSE automated grading system caused a national crisis for 1.7 million students.
 
-**How Title TBD addresses this:**
+**How this app addresses this:**
 
-Title TBD is entirely opt-in. Nobody is forced to install it. The AI runs locally on your own hardware with your own data. There's no corporation deciding what features you need. You choose the model, you choose when to run it, you control the data.
+This app is entirely opt-in. Nobody is forced to install it. The AI runs locally on your own hardware with your own data. There's no corporation deciding what features you need. You choose the model, you choose when to run it, you control the data.
 
-This is a direct structural fix. The problems in the essay all stem from organizations deploying AI without user consent or proper testing. Title TBD inverts this: the user is the operator.
+This is a direct structural fix. The problems in the essay all stem from organizations deploying AI without user consent or proper testing. this app inverts this: the user is the operator.
 
-**Effectiveness: Directly solves the consent problem** — Every problem in the essay (Starbucks, Apple, CBSE) stemmed from organizations deploying AI without user choice. Title TBD is fully opt-in: you install it, you choose the model, you control the data. Nobody forces it on you.
+**Effectiveness: Directly solves the consent problem** — Every problem in the essay (Starbucks, Apple, CBSE) stemmed from organizations deploying AI without user choice. this app is fully opt-in: you install it, you choose the model, you control the data. Nobody forces it on you.
 
 ---
 
@@ -355,7 +355,7 @@ This is a direct structural fix. The problems in the essay all stem from organiz
 
 **The issue:** AI chatbot queries use ~10x the energy of a standard search. Google's data centers used 29 billion liters of potable water in 2024. Meta's Georgia facility drew 1.8 million liters daily. Virginia residents face 80% electricity bill increases.
 
-**How Title TBD addresses this:**
+**How this app addresses this:**
 
 Distributing inference across existing PCs means:
 - No new power plants needed for AI
@@ -374,11 +374,11 @@ The trade-off is efficiency: a data center is more power-efficient per inference
 
 **The issue:** Centralized systems are fragile. If a data center goes down, everyone dependent on it loses access.
 
-**How Title TBD addresses this:**
+**How this app addresses this:**
 
-Title TBD is distributed by design. If one PC goes offline, the others continue operating. The coordinator can redistribute layers to remaining workers. There's no single server, no single company, no single point of failure.
+This app is distributed by design. If one PC goes offline, the others continue operating. The coordinator can redistribute layers to remaining workers. There's no single server, no single company, no single point of failure.
 
-**Effectiveness: Inherently solved by design** — Title TBD is distributed by architecture. If one PC goes offline, the others keep running and the coordinator redistributes layers. There's no central server, no single company, no single point of failure.
+**Effectiveness: Inherently solved by design** — this app is distributed by architecture. If one PC goes offline, the others keep running and the coordinator redistributes layers. There's no central server, no single company, no single point of failure.
 
 ---
 
@@ -412,6 +412,6 @@ Title TBD is distributed by design. If one PC goes offline, the others continue 
 
 ### Conclusion
 
-Title TBD directly solves 4 of the 7 problems — the ones most amenable to technical solutions: energy consumption, environmental impact, user consent, and system reliability. It partially addresses 2 — corporate spending behavior and wealth concentration — by proving viable alternatives exist, though changing those requires market forces or regulation beyond what software alone can do. It honestly cannot solve 1 — job displacement — because that is a systemic economic and political problem that no application, however well designed, can fix on its own.
+This app directly solves 4 of the 7 problems — the ones most amenable to technical solutions: energy consumption, environmental impact, user consent, and system reliability. It partially addresses 2 — corporate spending behavior and wealth concentration — by proving viable alternatives exist, though changing those requires market forces or regulation beyond what software alone can do. It honestly cannot solve 1 — job displacement — because that is a systemic economic and political problem that no application, however well designed, can fix on its own.
 
-The core thesis of the original essay — that centralized AI infrastructure is environmentally destructive, economically wasteful, and socially harmful — is valid. Title TBD offers a concrete, working alternative to the infrastructure side of that problem. It won't fix everything. But it proves the solution described in Part 1 of this README — "split it into multiple smaller data centers" — is buildable and functional today.
+The core thesis of the original essay — that centralized AI infrastructure is environmentally destructive, economically wasteful, and socially harmful — is valid. this app offers a concrete, working alternative to the infrastructure side of that problem. It won't fix everything. But it proves the solution described in Part 1 of this README — "split it into multiple smaller data centers" — is buildable and functional today.
