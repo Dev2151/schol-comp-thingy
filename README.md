@@ -291,7 +291,7 @@ This section evaluates Title TBD against each core problem identified in the ori
 
 Title TBD doesn't build new data centers. It repurposes hardware people already own. A typical home PC uses 50-200W under load versus a data center's megawatts. The distributed approach means no single facility needs industrial cooling, no water is consumed for server farms, and no new construction is required.
 
-**Effectiveness: HIGH** — Directly eliminates the core infrastructure problem by distributing compute across existing devices.
+**Effectiveness: Directly eliminates the core infrastructure problem** by distributing compute across existing devices instead of building new data centers. This is the problem Title TBD was designed to solve, and it solves it.
 
 ---
 
@@ -305,7 +305,7 @@ Title TBD removes the dependency on corporate AI infrastructure entirely. Instea
 
 This doesn't fix corporate FOMO directly — companies will still overspend. But it proves the alternative works: distributed, local, free AI inference is technically viable today. If more organizations adopted this approach, the pressure to build massive centralized facilities would decrease.
 
-**Effectiveness: MEDIUM** — Proves an alternative exists and works, but doesn't change corporate behavior directly.
+**Effectiveness: Proves an alternative exists but won't change corporate behavior on its own** — Title TBD shows that distributed local AI works technically, but companies will continue overspending on centralized infrastructure until market forces or regulation push them otherwise.
 
 ---
 
@@ -319,7 +319,7 @@ Title TBD is open source and free. The compute comes from hardware people alread
 
 This doesn't redistribute wealth, but it stops the wealth extraction loop. When AI runs locally, there's no API fee going to a $2.5 trillion company. For schools, small businesses, and developing regions, this means access to AI without paying the toll.
 
-**Effectiveness: MEDIUM** — Stops ongoing wealth extraction from local AI use, but doesn't address existing concentration.
+**Effectiveness: Stops ongoing wealth extraction but doesn't fix existing inequality** — When AI runs locally for free, no API fees flow to trillion-dollar companies. But it can't undo the wealth that's already been concentrated.
 
 ---
 
@@ -333,7 +333,7 @@ This is the hardest problem to solve with software. Title TBD doesn't create job
 
 The honest assessment: Title TBD is not designed to solve job displacement. It's designed to solve the infrastructure and energy problem. Job displacement requires policy solutions, not just technical ones.
 
-**Effectiveness: LOW** — Not designed for this problem. Technical solutions alone cannot solve systemic economic displacement.
+**Effectiveness: Not solvable through software alone** — Job displacement is a systemic economic and political problem. Title TBD distributes AI compute, but whether that creates or destroys jobs depends on policy, education, and labor regulation, not on how inference is run.
 
 ---
 
@@ -347,7 +347,7 @@ Title TBD is entirely opt-in. Nobody is forced to install it. The AI runs locall
 
 This is a direct structural fix. The problems in the essay all stem from organizations deploying AI without user consent or proper testing. Title TBD inverts this: the user is the operator.
 
-**Effectiveness: HIGH** — Directly solves the consent problem by making AI deployment a user choice, not a corporate mandate.
+**Effectiveness: Directly solves the consent problem** — Every problem in the essay (Starbucks, Apple, CBSE) stemmed from organizations deploying AI without user choice. Title TBD is fully opt-in: you install it, you choose the model, you control the data. Nobody forces it on you.
 
 ---
 
@@ -366,7 +366,7 @@ Distributing inference across existing PCs means:
 
 The trade-off is efficiency: a data center is more power-efficient per inference than 3 home PCs. But the environmental comparison isn't per-inference — it's total. A data center adds megawatts to the grid and billions of liters of water consumption. Three PCs add nothing to existing resource usage.
 
-**Effectiveness: HIGH** — Eliminates the environmental impact of new AI infrastructure by reusing what exists.
+**Effectiveness: Eliminates the environmental cost of new AI infrastructure** — No new power plants, no industrial water cooling, no data centers in water-scarce regions. The energy cost is absorbed by hardware people already own, running at existing power draw.
 
 ---
 
@@ -378,7 +378,7 @@ The trade-off is efficiency: a data center is more power-efficient per inference
 
 Title TBD is distributed by design. If one PC goes offline, the others continue operating. The coordinator can redistribute layers to remaining workers. There's no single server, no single company, no single point of failure.
 
-**Effectiveness: HIGH** — Distribution is the core architectural principle. This is inherently solved.
+**Effectiveness: Inherently solved by design** — Title TBD is distributed by architecture. If one PC goes offline, the others keep running and the coordinator redistributes layers. There's no central server, no single company, no single point of failure.
 
 ---
 
@@ -386,13 +386,13 @@ Title TBD is distributed by design. If one PC goes offline, the others continue 
 
 | Problem | Effectiveness | Why |
 |---------|:---:|---|
-| Energy/water consumption | HIGH | Distributes compute across existing devices, no new infrastructure |
-| Corporate FOMO spending | MEDIUM | Proves alternatives exist, doesn't change corporate behavior |
-| Wealth concentration | MEDIUM | Stops ongoing extraction, doesn't address existing concentration |
-| Job displacement | LOW | Not a policy tool — requires legislative and economic solutions |
-| Forced AI without consent | HIGH | Fully opt-in, user-controlled, no corporate mandates |
-| Environmental footprint | HIGH | Zero new infrastructure, zero new water/power consumption |
-| Single point of failure | HIGH | Distributed by design — no central dependency |
+| Energy/water consumption | Directly eliminates the core problem — distributes compute across existing devices, no new infrastructure needed |
+| Corporate FOMO spending | Proves the alternative works but won't change corporate behavior alone — requires market forces or regulation |
+| Wealth concentration | Stops ongoing extraction from local AI use but doesn't undo existing inequality |
+| Job displacement | Not solvable through software — requires policy, education, and labor regulation |
+| Forced AI without consent | Directly solves this — fully opt-in, user-controlled, no corporate mandates |
+| Environmental footprint | Eliminates new infrastructure costs — zero new water or power consumption |
+| Single point of failure | Inherently solved — distributed architecture with no central dependency |
 
 ### What Title TBD Can and Cannot Do
 
@@ -412,6 +412,6 @@ Title TBD is distributed by design. If one PC goes offline, the others continue 
 
 ### Conclusion
 
-Title TBD directly addresses the 4 out of 7 problems at HIGH effectiveness — the ones most directly solvable through technical means (energy, environment, consent, reliability). It partially addresses 2 at MEDIUM (corporate behavior, wealth concentration) by proving alternatives exist. It honestly cannot address 1 (job displacement) because that requires political and economic solutions, not engineering.
+Title TBD directly solves 4 of the 7 problems — the ones most amenable to technical solutions: energy consumption, environmental impact, user consent, and system reliability. It partially addresses 2 — corporate spending behavior and wealth concentration — by proving viable alternatives exist, though changing those requires market forces or regulation beyond what software alone can do. It honestly cannot solve 1 — job displacement — because that is a systemic economic and political problem that no application, however well designed, can fix on its own.
 
 The core thesis of the original essay — that centralized AI infrastructure is environmentally destructive, economically wasteful, and socially harmful — is valid. Title TBD offers a concrete, working alternative to the infrastructure side of that problem. It won't fix everything. But it proves the solution described in Part 1 of this README — "split it into multiple smaller data centers" — is buildable and functional today.
