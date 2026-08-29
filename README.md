@@ -1,136 +1,281 @@
-# Why AI bad
+# ⬡ FreeGrid
 
-Across countries like the USA, UK, Canada, Australia, and beyond, young people aged 13-25 have been vocal about their disdain for artificial intelligence (AI). Recent college graduation ceremonies in America made this resistance clear. 
-
-During a graduation ceremony at the University of Central Florida (UCF), specifically for the UCF College of Arts and Humanities and the Nicholson School of Communication, commencement speaker Gloria Caulfield, Vice President of Strategic Alliances for Tavistock Development Company, stated:
-
-> *"The rise of artificial intelligence is the next industrial revolution."* Her comment (seen at [https://www.youtube.com/watch?v=crwbno_SSIo](https://www.youtube.com/watch?v=crwbno_SSIo)) was met with boos and general disdain from graduating students. Elsewhere, college speakers urging students to embrace AI received similar reactions. One university even used an AI system to read graduates' names, announcing to the audience, *"We're using a new AI system as our reader"* (seen at [https://www.youtube.com/watch?v=hc_ETp61ZmY](https://www.youtube.com/watch?v=hc_ETp61ZmY)). This announcement was met with loud groans and boos, prompting National Public Radio (NPR) to run a segment advising commencement speakers to avoid bringing up AI if they wanted to avoid being booed.
+**Distributed storage and computing platform** — spread your data across many devices instead of relying on centralized data centers.
 
 ---
 
+## What is FreeGrid?
 
-For older adults, this hostility from younger demographics may come as a surprise, as older generations are accustomed to seeing teens and young adults embrace new technologies. According to Pew Research, people under 35 remain more likely to own smartphones, use the internet, and engage with social media than those aged 50 and older. However, sentiment toward AI shows a starkly different trend:
+FreeGrid is a peer-to-peer application that turns multiple computers and phones into a distributed storage network. Instead of one massive data center consuming megawatts of power, FreeGrid distributes storage and compute across many small devices — each contributing just a tiny fraction of resources.
 
-* **Gen Z Sentiment:** According to a Gallup survey, Gen Z's excitement about AI dropped by 12% (from 36% down to 22%), while feelings of anger toward AI increased from 22% to 31%.
-* **Rejection of Adoption:** Among Gen Z consumers who do not use AI, **57%** say they are completely unwilling to adopt the technology, compared to **32%** of Baby Boomers who say the same.
-* **Older Adult Adoption:** AI usage among adults over 50 doubled, rising from 18% to 30%.
+### Key Features
 
----
-
-
-The primary driver behind young people rejecting AI is the threat it poses to entry-level career pathways. Before high schoolers even step foot on a college campus, they are required to make decisions that shape the trajectory of their lives. In a recent survey:
-* **50%** of students felt uncertain about the impact of AI on their future jobs.
-* **10%** reported that this uncertainty made them depressed.
-
-Courteney Brown, Vice President at the Lumina Foundation, shared that students are unsure of what path to take, wondering whether to pursue tech careers or avoid them altogether, especially as degrees like business analytics face automation risks.
-
-### Market Trends by Region
-
-| Market Region | Entry-Level Job / Internship Reduction | Applicant Increase | Key Trends |
-| :--- | :---: | :---: | :--- |
-| **United States** | 15% reduction | 26% increase | Surge in trade school enrollment |
-| **UK and EU** | 12% reduction | 22% increase | Surge in trade school enrollment |
-| **Canada & Australia** | 14% reduction | 28% increase | Surge in trade school enrollment |
-
-Around half of all college students report having given serious thought to changing their major due to AI. With entry-level positions and internships down by as much as 15% and applicant pools up by 26%, researchers at the Burning Glass Institute note that for the first time in history, a bachelor's degree is no longer a reliable path to securing professional employment.
-
-Consequently, a large segment of young people is considering skilled trade professions (such as plumbers, HVAC technicians, and electricians) that cannot easily be automated. Enrollment in trade programs for individuals aged 17-21 pursuing two-year vocational degrees recently reached its highest level in 30 years.
+- **Distributed File Storage** — Files are split into encrypted chunks and spread across multiple nodes
+- **AES-256-GCM Encryption** — Every chunk is individually encrypted; even the nodes storing your data can't read it
+- **Local AI** — Run AI models locally with Ollama (desktop) or transformers.js (mobile) — no data sent to the cloud
+- **Mobile PWA** — Judges scan a QR code to try it on their phone instantly
+- **Automatic Discovery** — Nodes find each other on the local network via mDNS, no configuration needed
+- **Internet P2P** — Relay server enables nodes across the internet to connect
 
 ---
 
+## Architecture
 
-
-Much of the frustration stems from top-down implementations forced upon workers, students, and consumers without their consent or proper oversight.
-
-### 1. Corporate Rollouts: Starbucks
-Starbucks introduced a system requiring staff to use handheld tablets to automatically scan and count inventory. However, the system struggled with basic product identification, confusing milk types and overlooking items on shelves. A Starbucks promotional video highlighted these malfunctions, leading to further coverage ([CNBC Article](https://www.cnbc.com/2026/05/21/starbucks-scraps-ai-inventory-tool-across-north-america.html)). A few months after the rollout, the tool was quietly discontinued, and original promotional announcements were deleted.
-
-### 2. OS-Level Mobile Features: Apple
-Apple spent much of 2024 marketing AI features bundled into the iPhone 16. One feature automatically summarized news notifications. In practice, the system generated high-profile errors:
-* In December 2024, it combined 22 separate BBC news notifications into a fabricated summary stating *"Luigi Mangione shoots himself."*
-* Other false summaries claimed Pete Hegseth had been fired, Marco Rubio had been confirmed, and Israeli Prime Minister Benjamin Netanyahu had been arrested.
-
-Apple eventually pulled the notification summary feature to work on fixes. Researchers at Washington State University (WSU) found that explicitly labeling a product with "AI" often made consumers less likely to buy it.
-
-### 3. AI Implementation issues in india and education
-The risks of hasty, automated edtech rollouts reached a tipping point with India's Central Board of Secondary Education (CBSE) Class 12 examination results. In an attempt to digitize and automate evaluation at a national scale for over 1.7 million students, CBSE mandated an **On-Screen Marking (OSM)** system.
-
-What was intended to streamline grading turned into a widespread institutional crisis:
-* **Scanning & Verification Failures:** Scanned answer booklets were delivered to evaluators with extreme motion blur, cropped margins, missing pages, and swapped scripts. In viral cases, students received digitized answer sheets belonging to entirely different individuals, leading evaluators to assign arbitrary marks to illegible or wrong papers.
-* **Pass Percentage Drop:** The overall national pass percentage plunged to **85.20%**—the lowest in seven years—triggering nationwide student anxiety and public outrage.
-* **Systemic Technical Vulnerabilities:** Issues with vendor platform integration, lack of pilot testing, and severe portal crashes during re-evaluation worsened the disruption for students seeking redressal.
-* **Judicial & High-Level Scrutiny:** Following widespread student distress and portal failures, the Supreme Court of India intervened, seeking a status report from the Union Government on the ongoing probe into technical and evaluation defects.
+```
+┌─────────────────────────────────────────────┐
+│              Relay Server (Node.js)          │
+│   Registration · Discovery · Chunk Proxy     │
+└──────────────────────┬──────────────────────┘
+                       │
+        ┌──────────────┼──────────────┐
+        ▼              ▼              ▼
+   ┌─────────┐   ┌─────────┐   ┌─────────┐
+   │ Desktop  │   │ Desktop  │   │ Mobile  │
+   │  Node A  │   │  Node B  │   │  PWA    │
+   │ Ollama   │   │ Ollama   │   │ Qwen2   │
+   │ 1-2GB    │   │ 1-2GB    │   │ 0.5B    │
+   └─────────┘   └─────────┘   └─────────┘
+```
 
 ---
 
+## Tech Stack
 
-
-Despite public hesitation, tech companies like Google, Meta, and Microsoft allocated over **AED 2.387 trillion** ($650 billion USD) toward AI infrastructure (double their 2025 expenditure). Financial markets initially rewarded these investments with stock surges under the assumption of cost reduction and efficiency gains:
-* **Cloudflare** reduced its workforce by 20%.
-* **Cisco** cut nearly 4,000 employees (about 5% of its workforce) in an AI-focused reorganization.
-
-However, internal corporate metrics reveal widespread corporate uncertainty:
-
-* **FOMO Driving Spending:** An IBM survey revealed that **64% of CEOs** acknowledged fear of falling behind drove their AI investments before they understood its business impact. 
-* **Lack of Clear Strategy:** A Deloitte survey of nearly 2,000 executives quoted one leader saying: *"Everyone is asking their organization to adopt AI even if they don't know what the output is. There's so much hype that I think companies are expecting it to just magically solve everything."*
-* **Zero Contribution to GDP:** A Goldman Sachs analysis noted that **AED 2.57 trillion** ($700 billion USD) in AI investments during 2025 contributed essentially zero to national GDP growth.
-* **High Failure Rates:** An MIT study indicated that **95% of enterprise AI pilots failed** to deliver measurable results. Out of dozens of launched projects, only 5 showed functional utility, and only 11% of surveyed companies reported meeting their stated objectives despite **AED 110.18 billion to AED 146.90 billion** ($30 billion to $40 billion USD) in corporate spending.
-
-### Hype-Driven Valuation Spikes
-For some companies, the primary utility of announcing AI projects has been short-term stock appreciation. 
-* When Apple announced its AI roadmap, its stock jumped 7% in a single day.
-* Footwear brand **Allbirds**, which went public in 2021 with a peak valuation of **AED 14.69 billion** ($4 billion USD), saw severe store closures and lost 25% of its value in 2024. After selling its brand to American Exchange for **AED 143.23 million** ($39 million USD), the parent entity announced a transition to manufacturing AI chips. The announcement caused its stock price to jump **580%**, despite no immediate operational changes, drawing comparisons to the 2017 crypto boom when *Long Island Iced Tea* renamed itself *Long Island Blockchain*, causing a 380% stock spike before being delisted for insider trading.
+| Component | Technology |
+|-----------|-----------|
+| Desktop App | Electron + React + TypeScript |
+| Mobile App | React PWA (same framework) |
+| Build Tool | Vite |
+| Desktop AI | Ollama (Gemma 7B, Llama 8B, etc.) |
+| Mobile AI | transformers.js (Qwen2-0.5B, runs in browser) |
+| Networking | TCP sockets + mDNS (LAN) + Relay server (internet) |
+| Encryption | AES-256-GCM (Node.js crypto / Web Crypto API) |
+| File Splitting | Custom chunker (1MB chunks) |
 
 ---
 
+## Setup
 
+### Prerequisites
 
-Environmental impact is a primary concern for nearly 60% of adults under 30. AI infrastructure requires massive data center expansion, which consumes substantial electricity and water.
+- **Node.js** 18+ (https://nodejs.org)
+- **Ollama** (optional, for desktop AI): https://ollama.com
 
-### Environmental & Resource Footprint Comparison
+### 1. Install Dependencies
 
-| Metric / Resource | Standard Search / Baseline | AI Chatbot / Data Center Impact |
-| :--- | :--- | :--- |
-| **Electricity per Query** | ~0.3 Watt-hours | ~2.9 Watt-hours (~10x energy intensity) |
-| **Grid Consumption (US & Global)** | Baseline industrial demand | Over 4% of total US electricity; 105M metric tons CO2 |
-| **Water Consumption** | Standard utility cooling | Over 29 billion liters of potable water used by major providers annually |
-| **Global Data Center Expansion** | Historical growth baseline | Over 2,000 new facilities built globally in 3 years (+70% increase) |
+```bash
+# Root project (Electron + renderer)
+npm install
 
-### Key Impacts:
-* **Carbon Discrepancies:** Google previously pledged to reach net-zero emissions by 2030. However, in 2024, it reported a **48% increase in greenhouse gas emissions** since 2019 due to data center expansion, eventually pivoting to "ambition-based" climate targets. Similarly, Microsoft reported an emissions increase of **23.4%** relative to its 2020 baseline.
-* **Water Usage:** In 2024, **78%** of the water used by Google’s data centers was potable drinking water (totaling 29,147,670,737.8 liters), which is enough to sustain the population of Kollam, Kerala for an entire year. More than 2,000 AI data centers were constructed globally over a 3-year period (+70% increase), with many located in water-scarce regions like Arizona, USA.
-* **Local Impacts:**
-  * In Newton County, Georgia, a Meta data center was permitted to draw over 1,892,705.89 liters of water daily, leading to reported drops in residential water pressure.
-  * In Virginia ("Data Center Alley"), data centers consume **39% of the state's total electricity**, contributing to residential electricity bill increases of up to 80% over 3 years alongside persistent cooling fan noise within a 2.5-mile radius.
+# Relay server
+cd relay-server && npm install && cd ..
+```
+
+### 2. Start the Relay Server
+
+```bash
+npm run relay
+```
+
+The relay server starts on port 9500. You'll see:
+```
+  ⬡ FreeGrid Relay Server
+  ──────────────────────
+  Port:     9500
+  Status:   http://localhost:9500/status
+  Nodes:    http://localhost:9500/nodes
+```
+
+### 3. Start the Desktop App (Development)
+
+```bash
+npm run dev
+```
+
+In a separate terminal:
+```bash
+npx electron .
+```
+
+Or use the combined command:
+```bash
+npm run electron:dev
+```
+
+### 4. Start the Mobile PWA (Development)
+
+```bash
+cd mobile && npx vite --port 5174
+```
+
+Open `http://localhost:5174` on your phone (same network).
+
+### 5. Connect Nodes
+
+- **LAN mode**: Nodes automatically discover each other via mDNS — no configuration needed
+- **Internet mode**: Connect to the relay server for nodes across different networks
 
 ---
 
+## Project Structure
 
-The financial gains from the AI boom remain heavily concentrated at the top:
-* In 2025, the top 10% of US households saw their wealth increase by **AED 18.36 trillion** ($5 trillion USD) in a single quarter, compared to **AED 550.88 billion** ($150 billion USD) gained by the bottom 50% (roughly 3% of the top group's gain).
-* The combined net worth of America's 10 richest tech executives reached **AED 9.18 trillion** ($2.5 trillion USD) in 2025 (up from **AED 6.98 trillion** / $1.9 trillion USD).
-* Elon Musk's wealth increased by **AED 686.76 billion** ($187 billion USD) in a single year, while Google co-founders Larry Page and Sergey Brin each added over **AED 330.53 billion** ($90 billion USD).
-* Over 50 new billionaires were created globally in 2025 through AI ventures.
-* The richest 1% of US households held **31.7% of all national wealth** in late 2025, which is the highest share ever recorded by the Federal Reserve.
-
-### Historical Context: The Industrial Revolution
-While speakers often frame AI as the "next Industrial Revolution," the original Industrial Revolution (c. 1760s-1850s) created significant hardship for working populations during its initial decades:
-* Workers transitioned from decentralized agrarian and trade work to urban factory environments, facing 12-to-16-hour workdays for minimal wages.
-* Living conditions in urban centers led to drops in average life expectancy.
-* Capital owners reaped immediate rewards, while broad societal benefits (such as the 8-hour workday, weekend rest periods, child labor restrictions, and workplace safety laws) required decades of labor organization and policy reform to establish.
+```
+freegrid/
+├── package.json              # Root project config
+├── tsconfig.json             # TypeScript config (renderer)
+├── tsconfig.electron.json    # TypeScript config (Electron main)
+├── vite.config.ts            # Vite config (Electron renderer)
+│
+├── shared/
+│   └── types.ts              # Shared TypeScript types
+│
+├── electron/                 # Electron main process
+│   ├── main.ts               # Entry point
+│   ├── preload.ts            # IPC bridge
+│   ├── ipc-handlers.ts       # IPC handler registration
+│   ├── storage/
+│   │   ├── chunker.ts        # File splitting/reassembly
+│   │   ├── encryptor.ts      # AES-256-GCM encryption
+│   │   └── manifest.ts       # FileManifest CRUD
+│   ├── network/
+│   │   ├── manager.ts        # Network manager
+│   │   ├── discovery.ts      # mDNS node discovery
+│   │   ├── tcp-server.ts     # TCP server for chunks
+│   │   ├── tcp-client.ts     # TCP client for chunks
+│   │   └── relay-client.ts   # Relay server client
+│   └── ai/
+│       └── ollama-client.ts  # Ollama API wrapper
+│
+├── renderer/                 # Electron renderer (React)
+│   ├── index.html
+│   ├── vite.config.ts
+│   └── src/
+│       ├── App.tsx
+│       ├── main.tsx
+│       ├── pages/
+│       │   ├── Dashboard.tsx  # Node overview + QR code
+│       │   ├── Files.tsx      # Upload/download files
+│       │   └── AIChat.tsx     # Local AI chat
+│       └── styles/
+│           └── app.css
+│
+├── mobile/                   # Mobile PWA
+│   ├── index.html
+│   ├── manifest.json         # PWA manifest
+│   ├── sw.js                 # Service worker
+│   ├── vite.config.ts
+│   └── src/
+│       ├── App.tsx
+│       ├── main.tsx
+│       ├── pages/
+│       │   ├── Home.tsx       # Network overview
+│       │   ├── Files.tsx      # Upload/download
+│       │   └── AIChat.tsx     # On-device AI
+│       └── styles.css
+│
+├── relay-server/             # Standalone relay server
+│   ├── package.json
+│   └── index.ts
+│
+└── README.md
+```
 
 ---
-## The solution
-there is none
-there is none because this is not a easy problem to solve. There is no single solution because this is not one issue this is multiple issues. so what i can do is offer a solution to the issue where data centers use a lot of energy and space and cause noise pollution as that is a extremely easy solution to solve compared to the issues outlined 
-## The solution (real)
-I hope you have understood how hard it is to make a solution for this so 
-the solution is that instead of making one huge data center in a city which is more efficant we aplit it into multiple smaller data centers for example instead of one huge hard disk of 500gb it is 5, hard disks of 100 gb and instead of one huge processing center for ai it is split across multiple computers and I plan to make a app for that 
-this solution is what I feel possible in the constraints which you have given being space, data science, app devlopment etc so I can make a app which can be installed on computers that when installed will use a little bit of the computers power for ai (which I discorage) or reserve a tiny chunk of the computers hard disk for google drive and encrypt it so a user on a seperate client side app can upload for example there photos or documents and will be stored on many computers each reserving 1 or 2 gb multiplied times multiple computers can have more storage than google drive while being cheap or free and this can be easily made by using electron for the app devlopment and Ollama to run the ai locally instead of on open ai servers making it cheaper and sort of distribute the energy load instead of concentrating all the enerygy and water requirements in one place 
- 
 
+## How It Works
 
-#### Hi mr/mrs reviewer :) I know this looks incredibly ai made which might be ok considering what the competition is but this is not ai made i did use ai to to format this into a .MD file for github and correct the spellings the original file is avalabilbe on this link https://docs.google.com/document/d/14ZMi8mFmF2hny9YieWnCVrMuappkuDtwHbCHDAsg3f0/edit?usp=sharing 
-> I need to give credit to this video for bringing my attention to the cause and gave me inspiration to choose this topic https://www.youtube.com/watch?v=-i4hgyJ01ZQ
+### File Upload Flow
 
+1. User selects a file → enters an encryption password
+2. File is split into **1MB chunks**
+3. Each chunk is encrypted with **AES-256-GCM** (unique IV per chunk)
+4. Chunks are distributed to available nodes via TCP
+5. A **FileManifest** is created with all chunk locations and metadata
+6. Manifest is stored locally
 
+### File Download Flow
+
+1. User clicks download → enters decryption password
+2. App reads the **FileManifest**
+3. Fetches each chunk from its node
+4. Verifies **SHA-256** hash for integrity
+5. **Decrypts** each chunk
+6. **Reassembles** chunks in order
+7. Writes the complete file to disk
+
+### AI Integration
+
+**Desktop (Ollama):**
+- Ollama runs locally on your machine
+- Supports any model: Gemma 2B, Llama 8B, Mistral, etc.
+- No data leaves your computer
+
+**Mobile (transformers.js):**
+- Runs Qwen2-0.5B (~300MB) entirely in the browser
+- First load downloads the model; subsequent loads use cache
+- Zero API calls — everything is on-device
+
+---
+
+## Demo Script (For Competition)
+
+### Setup
+1. Start relay server
+2. Open FreeGrid on 2-3 laptops → nodes auto-discover
+3. Each offers 1-2GB of storage
+4. Desktop displays QR code on Dashboard
+
+### Live Demo
+
+**Part 1: Distributed Storage**
+1. "I'll upload a file from my phone" → scan QR → PWA opens
+2. Upload a photo → watch it split and distribute
+3. Show encrypted chunks on laptops (unreadable gibberish)
+4. Download the file on a different laptop → reassembled perfectly
+
+**Part 2: Local AI on Phone**
+1. Open AI Chat on the phone
+2. First time: model downloads (~300MB)
+3. Ask a question → response generated on the phone
+4. "No data sent to OpenAI, Google, or anyone"
+
+**Part 3: The Point**
+1. "Each laptop uses ~50 watts. A data center uses megawatts."
+2. "By distributing storage, we reduce集中能耗"
+3. "Your data is encrypted — even the computers storing it can't read it"
+
+---
+
+## Energy Comparison
+
+| | Traditional Data Center | FreeGrid (3 nodes) |
+|---|---|---|
+| Power | ~1 MW+ | ~150W (3 × 50W) |
+| Cooling | Massive water usage | Standard room temperature |
+| Single point of failure | Yes | No — distributed |
+| Data privacy | Centralized control | User-controlled encryption |
+
+---
+
+## Limitations
+
+1. **Relay server needed** for internet connectivity (lightweight, ~200 lines)
+2. **No erasure coding** — if a node goes offline, its chunks are unavailable
+3. **Mobile AI is basic** — Qwen2-0.5B for demos, not production-grade
+4. **Not audited** — crypto is solid but key management is simplified
+5. **Local network only** for mDNS mode — internet requires relay
+
+---
+
+## Credits
+
+- Inspired by the concerns raised about centralized AI infrastructure
+- Uses [Ollama](https://ollama.com) for local AI inference
+- Uses [transformers.js](https://huggingface.co/docs/transformers.js) for mobile AI
+- Built with Electron, React, and Vite
+
+---
+
+## License
+
+MIT
