@@ -482,19 +482,16 @@ function reconnect(): void {
     return;
   }
 
-  // Priority 3: VM NAT fallback (10.0.2.2 = the host machine from inside a
-  // QEMU/Boxes NAT VM). Try each fallback once per cycle.
-  const fallback = VM_HOST_FALLBACKS[reconnectAttempts % VM_HOST_FALLBACKS.length];
-  if (reconnectAttempts < VM_HOST_FALLBACKS.length) {
-    log(`No saved coordinator — trying VM NAT fallback: ${fallback}...`);
-    connectToCoordinator(fallback, TCP_DEFAULT_PORT, 'host');
-    return;
+  // Priority 3: VM NAT fallbacks — walk the full chain on EVERY cycle so the
+  // worker always returns to 10.0.2.2 (the QEMU/Boxes host address) even if
+  // the coordinator was still booting during earlier attempts. mDNS (registered
+  // in startDiscovery) keeps listening in parallel as a bonus path.
+  const cycleStep = reconnectAttempts % VM_HOST_FALLBACKS.length;
+  const fallback = VM_HOST_FALLBACKS[cycleStep];
+  if (cycleStep === 0) {
+    log(`Retry cycle ${Math.floor(reconnectAttempts / VM_HOST_FALLBACKS.length) + 1}: trying VM NAT host at ${fallback}...`);
   }
-
-  // Priority 4: mDNS discovery (works on a real LAN; cannot cross VM NAT)
-  if (reconnectAttempts === VM_HOST_FALLBACKS.length) {
-    log('Searching for coordinator via mDNS...');
-  }
+  connectToCoordinator(fallback, TCP_DEFAULT_PORT, 'host');
 }
 
 function startDiscovery() {
