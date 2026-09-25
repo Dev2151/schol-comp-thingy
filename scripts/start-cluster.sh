@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # ============================================================
-#  — start the TRUE distributed-inference cluster
+# Title TBD — start the TRUE distributed-inference cluster
 #  laptop (orchestrator + its layers) <--RPC over SSH tunnel--> VM (its layers)
+# CLI-only: no Electron, no GUI. The coordinator protocol server runs headless.
 # Usage:
 #   start-cluster            start everything (VM, rpc, tunnel, coordinator, node)
 #   start-cluster stop       shut it all down
@@ -34,7 +35,8 @@ if [ "${1:-}" = "ask" ]; then
   shift
   export LD_LIBRARY_PATH="$LLAMA_DIR"
   exec "$LLAMA_DIR/llama-cli" -m "$MODEL" --rpc 127.0.0.1:19556 \
-       -p "$1" -n 120 --temp 0 -st 2>/dev/null | grep -v '^$' | tail -n +2
+       -p "$1" -n 120 --temp 0 -st --log-disable 2>/dev/null \
+       | python3 "$DIR/scripts/clean-llama-output.py"
   exit 0
 fi
 
@@ -86,16 +88,12 @@ else
   ss -tln | grep -q 19556 && ok "tunnel up (host 19556 -> VM 9555)" || warn "tunnel failed"
 fi
 
-# 5. ollama + coordinator + UI
-say "Starting coordinator stack"
-curl -s --max-time 2 localhost:11434/api/tags >/dev/null || { (setsid nohup ollama serve </dev/null >/dev/null 2>&1 & disown); sleep 3; }
-ok "ollama"
-[ -d "$DIR/node_modules/electron/dist/electron" ] || { ok "skipping coordinator (electron missing)"; exit 0; }
-ss -tln | grep -q :5173 || (cd "$DIR" && setsid nohup npx vite </dev/null >/tmp/ttbd-vite.log 2>&1 & disown)
+# 5. headless coordinator (protocol server only — no Electron, no GUI)
+say "Starting coordinator (headless)"
 if ss -tln | grep -q :9501; then
   ok "coordinator already on 9501"
 else
-  (cd "$DIR" && setsid nohup npx electron . </dev/null >/tmp/ttbd-coord.log 2>&1 & disown)
+  (cd "$DIR" && setsid nohup node scripts/coordinator-headless.js </dev/null > /tmp/ttbd-coord.log 2>&1 & disown)
   for i in $(seq 1 10); do sleep 2; ss -tln | grep -q :9501 && break; done
   ss -tln | grep -q :9501 && ok "coordinator on 9501" || warn "coordinator failed — check /tmp/ttbd-coord.log"
 fi
@@ -109,11 +107,10 @@ done
 grep -E 'Auto-assigned' /tmp/ttbd-coord.log 2>/dev/null | tail -1 | sed 's/^/     /'
 
 echo "
-  --------------------------------------------
-  CLUSTER READY
-   • true layer offload : start-cluster ask \"your question\"
-   • VM node status     : start-cluster status
-   • VM node logs       : ssh -p 2222 vmuser@127.0.0.1 'tail /home/vmuser/ttd/node.log'
-   • chat UI            : coordinator window (port 5173)
-   • shut down          : start-cluster stop
-  --------------------------------------------"
+  ----------------------------------------
+  CLUSTER READY (cli only)
+   - ask a question     : ./setup ask \"your question\"
+   - vm node status     : ./setup status
+   - vm node logs       : ssh -p 2222 vmuser@127.0.0.1 'tail /home/vmuser/ttd/node.log'
+   - shut down          : ./setup stop
+  ----------------------------------------"

@@ -1,12 +1,81 @@
 #!/usr/bin/env bash
 # ============================================================
-#  — one entry point for everything
-#   ./setup start     bring up the whole cluster (VM, node, rpc, tunnel, coordinator)
-#   ./setup stop      shut it all down
-#   ./setup ask "..." ask a question (layers execute on the remote node)
-#   ./setup status    live status of the worker node
-#   ./setup demo      scripted 30s terminal reel (for recording the fallback video)
+# One entry point for the distributed inference cluster.
+# CLI-only: no Electron app is launched or required.
+#   ./setup start        bring up the cluster (VM, node, rpc, tunnel, coordinator)
+#   ./setup ask "..."    ask a question (animated live view of the layer offload)
+#   ./setup ask -q "..." quiet mode: answer only, no animation
+#   ./setup status       live status of the worker node
+#   ./setup demo         scripted 30s terminal reel (for recordings)
+#   ./setup stop         shut everything down
+#   ./setup help         this dictionary
 # ============================================================
 set -u
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-exec "$DIR/scripts/start-cluster.sh" "$@"
+CLUSTER="$DIR/scripts/start-cluster.sh"
+LIVE="$DIR/scripts/ask-live.py"
+SSH_OPTS="-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p 2222"
+VM_SSH="vmuser@127.0.0.1"
+
+do_help() {
+  cat <<'EOF'
+distributed inference cluster - command dictionary
+
+  ./setup start          start everything:
+                           worker VM (QEMU, visible window)
+                           terminal node in the VM (ttd-node.py)
+                           llama.cpp rpc backend in the VM
+                           ssh tunnel for tensors (host 19556 -> vm 9555)
+                           coordinator on port 9501 (protocol only, no GUI)
+
+  ./setup ask "..."      ask the cluster a question. shows a live view:
+                           cluster layout, who holds which layers,
+                           ram bar, moving tensor-path animation,
+                           then the clean answer.
+                          tokens are computed on the vm's cpu:
+                           llama.cpp rpc offloads the layer blocks.
+
+  ./setup ask -q "..."   quiet mode: print only the answer.
+
+  ./setup status         json status from the worker node:
+                           connection, layer assignment, ram, rpc port.
+
+  ./setup demo           scripted 30s reel: status + two questions + answers.
+                         use for recording the fallback video.
+
+  ./setup stop           stop everything (cli, tunnel, coordinator, vm).
+
+  ./setup help           this text.
+
+examples:
+  ./setup start
+  ./setup ask "what is 7 times 8?"
+  ./setup ask -q "name the capital of japan"
+  ./setup status | python3 -m json.tool
+  ./setup stop
+EOF
+}
+
+case "${1:-help}" in
+  help|--help|-h) do_help ;;
+  start) exec "$CLUSTER" start ;;
+  stop)  exec "$CLUSTER" stop ;;
+  status) exec "$CLUSTER" status ;;
+  demo)  exec "$DIR/scripts/demo-reel.sh" ;;
+  ask)
+    shift
+    if [ "${1:-}" = "-q" ]; then
+      shift
+      Q="$*"
+      export LD_LIBRARY_PATH="$HOME/llamacpp/llama-b11191"
+      exec "$HOME/llamacpp/llama-b11191/llama-cli" -m "$HOME/models/qwen25-3b.gguf" \
+        --rpc 127.0.0.1:19556 -p "$Q" -n 120 --temp 0 -st --log-disable 2>/dev/null \
+        | python3 "$DIR/scripts/clean-llama-output.py"
+    else
+      Q="$*"
+      [ -z "$Q" ] && { echo 'usage: ./setup ask "question"'; exit 1; }
+      exec python3 "$LIVE" "$Q"
+    fi
+    ;;
+  *) do_help; exit 1 ;;
+esac
