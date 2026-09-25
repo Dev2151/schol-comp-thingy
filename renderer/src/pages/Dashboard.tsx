@@ -118,43 +118,31 @@ export default function Dashboard() {
       <div className="dashboard-layout">
         <div className="card full-width">
           <div className="card-header">
-            <span className="card-title">Continue a conversation</span>
-            <button className="btn btn-sm btn-secondary">+ New chat</button>
+            <span className="card-title">Cluster nodes</span>
+            <span className="card-subtitle">Live — updates as machines join</span>
           </div>
           <div className="recent-list">
-            <div className="recent-item">
-              <div className="recent-item-icon">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-                </svg>
+            {nodes.length === 0 && (
+              <div className="recent-item">
+                <div className="recent-item-text">
+                  <div className="recent-item-title">No workers connected yet</div>
+                  <div className="recent-item-time">Start a worker VM or run COORDINATOR_IP=&lt;host-ip&gt; on another machine</div>
+                </div>
               </div>
-              <div className="recent-item-text">
-                <div className="recent-item-title">Explain how pipeline parallelism works for LLM inference</div>
-                <div className="recent-item-time">Today, 2:30 PM</div>
+            )}
+            {nodes.map(n => (
+              <div className="recent-item" key={n.nodeId}>
+                <div className="recent-item-icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="2" y="3" width="20" height="14" rx="2" /><path d="M8 21h8M12 17v4" />
+                  </svg>
+                </div>
+                <div className="recent-item-text">
+                  <div className="recent-item-title">{n.hostname} {n.nodeId ? `(${String(n.nodeId).slice(0, 8)})` : ''}</div>
+                  <div className="recent-item-time">{n.ip}:{n.port} · {n.status}</div>
+                </div>
               </div>
-            </div>
-            <div className="recent-item">
-              <div className="recent-item-icon">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-                </svg>
-              </div>
-              <div className="recent-item-text">
-                <div className="recent-item-title">Write a Python script to measure inter-node latency</div>
-                <div className="recent-item-time">Yesterday, 4:15 PM</div>
-              </div>
-            </div>
-            <div className="recent-item">
-              <div className="recent-item-icon">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-                </svg>
-              </div>
-              <div className="recent-item-text">
-                <div className="recent-item-title">What model would work best for 3 nodes with 8GB each?</div>
-                <div className="recent-item-time">Monday, 11:00 AM</div>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </div>
