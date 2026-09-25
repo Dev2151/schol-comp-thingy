@@ -16,6 +16,7 @@ exec qemu-system-x86_64 \
   -virtfs local,path="$HOME/schol-comp-thingy",mount_tag=hostrepo,security_model=mapped-xattr,id=hostrepo \
   -vga virtio \
   -display gtk,gl=off \
+  -vnc 127.0.0.1:1 \
   -qmp unix:/tmp/ttbd-qmp.sock,server,nowait \
   -usb -device usb-tablet \
   -device virtio-rng-pci \
