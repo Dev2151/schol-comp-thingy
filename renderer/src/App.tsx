@@ -8,7 +8,7 @@ import Settings from './pages/Settings';
 
 declare global {
   interface Window {
-    title-tbd: any;
+    'title-tbd': any;
   }
 }
 
@@ -16,7 +16,7 @@ type Page = 'chat' | 'dashboard' | 'cluster' | 'pipeline' | 'models' | 'settings
 
 export const ThemeContext = createContext<{ dark: boolean; toggle: () => void }>({ dark: false, toggle: () => {} });
 
-const isElectron = typeof window !== 'undefined' && window.title-tbd != null;
+const isElectron = typeof window !== 'undefined' && window['title-tbd'] != null;
 
 function NavIcon({ d, size = 20 }: { d: string; size?: number }) {
   return (
@@ -53,7 +53,7 @@ export default function App() {
 
   useEffect(() => {
     if (!isElectron) return;
-    window.title-tbd.getSystemInfo().then((info: any) => setSysInfo(info));
+    window['title-tbd'].getSystemInfo().then((info: any) => setSysInfo(info));
   }, []);
 
   useEffect(() => {

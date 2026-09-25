@@ -4,25 +4,21 @@ import * as fs from 'fs';
 import * as os from 'os';
 import { execSync } from 'child_process';
 
-// Platform gate: Linux only, Arch-based only, this ThinkPad only
+// Platform info: the original build hard-exited unless it ran on one specific
+// Arch ThinkPad. That gate is now a warning so the same code can run on the
+// coordinator laptop AND inside worker VMs (e.g. Lubuntu in GNOME Boxes).
 const ALLOWED_HOSTNAME = 'ty-20nks0qn15';
 if (process.platform !== 'linux') {
-  console.error(`[Title TBD] Unsupported platform: ${process.platform}. This app only runs on Linux.`);
-  app.quit();
-  process.exit(1);
+  console.warn(`[Title TBD] Warning: unsupported platform ${process.platform} — continuing anyway.`);
 }
 try {
   const osRelease = fs.readFileSync('/etc/os-release', 'utf-8');
   if (!osRelease.includes('arch') && !osRelease.includes('endeavouros')) {
-    console.error('[Title TBD] Unsupported distro. This app only runs on Arch-based Linux.');
-    app.quit();
-    process.exit(1);
+    console.warn('[Title TBD] Warning: non-Arch-based distro — continuing anyway.');
   }
 } catch {}
 if (os.hostname() !== ALLOWED_HOSTNAME) {
-  console.error(`[Title TBD] Unauthorized host: ${os.hostname()}. This app only runs on ${ALLOWED_HOSTNAME}.`);
-  app.quit();
-  process.exit(1);
+  console.warn(`[Title TBD] Warning: hostname is ${os.hostname()}, not the dev ThinkPad (${ALLOWED_HOSTNAME}) — continuing anyway.`);
 }
 import { v4 as uuidv4 } from 'uuid';
 import { registerIpcHandlers } from './ipc-handlers';

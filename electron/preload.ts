@@ -115,7 +115,7 @@ contextBridge.exposeInMainWorld('title-tbd', {
   },
 });
 
-export interface Title TBDAPI {
+export interface TitleTBDAPI {
   uploadFile: (filePath: string, password: string) => Promise<any>;
   downloadFile: (fileId: string, outputPath: string, password: string) => Promise<any>;
   listFiles: () => Promise<any[]>;

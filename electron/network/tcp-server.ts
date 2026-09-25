@@ -4,6 +4,7 @@ import * as path from 'path';
 import { v4 as uuidv4 } from 'uuid';
 import { ProtocolMessage, TCP_DEFAULT_PORT } from '../../shared/types';
 import { computeHash } from '../storage/chunker';
+import { pickClusterModel, ensureOllamaModel, getEffectiveFreeRam } from '../../shared/model-selection';
 
 const CHUNK_DIR = path.join(
   require('os').homedir(),
@@ -225,41 +226,59 @@ async function handleMessage(socket: net.Socket, message: ProtocolMessage): Prom
         const { BrowserWindow } = require('electron');
         const windows = BrowserWindow.getAllWindows();
         windows.forEach((w: any) => w.webContents.send('nodes-updated', nodes));
-      } catch {}
+      } catch {}// Auto-distribute layers when a worker connects
+try {
+  const os = require('os');
+  const { assignLayers, sendLayerAssignment, getPipelineState } = require('../ai/distributed');
+  const { getNetworkManager } = require('./manager');
+  const manager = getNetworkManager();
+  const allNodes = manager.getConnectedNodes().filter((n: any) => n.nodeId !== manager.getNodeId());
+  const freeRam = getEffectiveFreeRam();
+  const workers = allNodes.map((n: any) => ({
+    nodeId: n.nodeId,
+    hostname: n.hostname,
+    ip: n.ip,
+    port: n.port,
+    freeRam: n.storageOffered || 8 * 1024**3,
+  }));
+  if (workers.length > 0) {
+    // Pick the biggest model that fits on the coordinator AND every worker,
+    // then auto-pull it if Ollama doesn't have it yet.
+    const modelName = pickClusterModel(freeRam, workers);
+    console.log(`[TCP Server] Auto-distributing ${modelName}: coordinator free=${(freeRam/1024**3).toFixed(1)}GB, ${workers.length} worker(s)`);
+    for (const w of workers) {
+      console.log(`[TCP Server]   worker ${w.hostname}: free=${(w.freeRam/1024**3).toFixed(1)}GB`);
+    }
 
-      // Auto-distribute layers when a worker connects
-      try {
-        const os = require('os');
-        const { assignLayers, sendLayerAssignment, getPipelineState } = require('../ai/distributed');
-        const { getNetworkManager } = require('./manager');
-        const manager = getNetworkManager();
-        const allNodes = manager.getConnectedNodes().filter((n: any) => n.nodeId !== manager.getNodeId());
-        const freeRam = os.freemem();
-        const workers = allNodes.map((n: any) => ({
-          nodeId: n.nodeId,
-          hostname: n.hostname,
-          ip: n.ip,
-          port: n.port,
-          freeRam: n.storageOffered || 8 * 1024**3,
-        }));
-
-        if (workers.length > 0) {
-          const modelName = 'gemma2:9b';
-          console.log(`[TCP Server] Auto-distributing ${modelName}: coordinator free=${(freeRam/1024**3).toFixed(1)}GB, ${workers.length} worker(s)`);
-          const assignments = assignLayers(modelName, freeRam, workers);
-          for (const a of assignments) {
-            if (a.nodeId === 'coordinator') continue;
-            const ok = sendLayerAssignment(a.nodeId, a);
-            console.log(`[TCP Server] Auto-assigned ${a.hostname}: L${a.layerStart}-${a.layerEnd} (sent: ${ok})`);
-          }
-          // Notify renderer of pipeline update
-          const { BrowserWindow } = require('electron');
-          const windows = BrowserWindow.getAllWindows();
-          windows.forEach((w: any) => w.webContents.send('pipeline-updated', getPipelineState()));
+    ensureOllamaModel(modelName, (m) => console.log(`[TCP Server] ${m}`))
+      .then((ok) => {
+        if (!ok) {
+          console.error(`[TCP Server] Model ${modelName} unavailable — layer assignment skipped`);
+          return;
         }
-      } catch (err: any) {
-        console.error(`[TCP Server] Auto-distribute failed:`, err.message);
-      }
+        // Small delay so the worker's socket is fully registered in workerSockets
+        setTimeout(() => {
+          try {
+            const assignments = assignLayers(modelName, freeRam, workers);
+            for (const a of assignments) {
+              if (a.nodeId === 'coordinator') continue;
+              const ok2 = sendLayerAssignment(a.nodeId, a);
+              console.log(`[TCP Server] Auto-assigned ${a.hostname}: L${a.layerStart}-${a.layerEnd} (sent: ${ok2})`);
+            }
+            // Notify renderer of pipeline update
+            const { BrowserWindow } = require('electron');
+            const windows = BrowserWindow.getAllWindows();
+            windows.forEach((w: any) => w.webContents.send('pipeline-updated', getPipelineState()));
+          } catch (err2: any) {
+            console.error(`[TCP Server] Deferred auto-distribute failed:`, err2.message);
+          }
+        }, 500);
+      })
+      .catch((err2: any) => console.error(`[TCP Server] ensureOllamaModel failed:`, err2?.message || err2));
+  }
+} catch (err: any) {
+  console.error(`[TCP Server] Auto-distribute failed:`, err.message);
+}
 
       break;
     }

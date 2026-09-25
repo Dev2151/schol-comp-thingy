@@ -6,25 +6,21 @@ import { v4 as uuidv4 } from 'uuid';
 import { Bonjour, Service } from 'bonjour-service';
 import * as fs from 'fs';
 
-// Platform gate: Linux only, Arch-based only, this ThinkPad only
+// Platform info: the original build hard-exited unless it ran on one specific
+// Arch ThinkPad. That gate is now a warning so the worker can run inside
+// VMs (e.g. Lubuntu in GNOME Boxes) and on other machines.
 const ALLOWED_HOSTNAME = 'ty-20nks0qn15';
 if (process.platform !== 'linux') {
-  console.error(`[Title TBD Worker] Unsupported platform: ${process.platform}. This app only runs on Linux.`);
-  app.quit();
-  process.exit(1);
+  console.warn(`[Title TBD Worker] Warning: unsupported platform ${process.platform} — continuing anyway.`);
 }
 try {
   const osRelease = fs.readFileSync('/etc/os-release', 'utf-8');
   if (!osRelease.includes('arch') && !osRelease.includes('endeavouros')) {
-    console.error('[Title TBD Worker] Unsupported distro. This app only runs on Arch-based Linux.');
-    app.quit();
-    process.exit(1);
+    console.warn('[Title TBD Worker] Warning: non-Arch-based distro — continuing anyway.');
   }
 } catch {}
 if (os.hostname() !== ALLOWED_HOSTNAME) {
-  console.error(`[Title TBD Worker] Unauthorized host: ${os.hostname()}. This app only runs on ${ALLOWED_HOSTNAME}.`);
-  app.quit();
-  process.exit(1);
+  console.warn(`[Title TBD Worker] Warning: hostname is ${os.hostname()}, not the dev ThinkPad (${ALLOWED_HOSTNAME}) — continuing anyway.`);
 }
 
 // ============================================================
@@ -169,11 +165,14 @@ function connectToCoordinator(ip: string, port: number, hostname: string) {
           layerRange: msg.layerRange,
           status: 'loaded',
         };
+        const modelChanged = assignedModel !== msg.model;
         assignedModel = msg.model;
         assignedLayerStart = start;
         assignedLayerEnd = end;
         log(`Assigned layers ${msg.layerRange} for model ${msg.model} (${end - start + 1} layers)`);
         mainWindow?.webContents.send('worker-status', getStatus());
+        // Make sure this VM's Ollama has the assigned model (auto-pull once)
+        if (modelChanged) void ensureModelPulled(msg.model);
         break;
       }
 
@@ -238,21 +237,17 @@ function connectToCoordinator(ip: string, port: number, hostname: string) {
     coordinatorSocket = null;
     coordinatorInfo = null;
     loadedLayers = null;
+    reconnectAttempts = Math.min(reconnectAttempts + 1, 6); // cap backoff at ~30s
     if (heartbeatTimer) { clearInterval(heartbeatTimer); heartbeatTimer = null; }
-    log('Disconnected from coordinator. Reconnecting in 3s...');
+    const delay = 3000 * reconnectAttempts;
+    log(`Disconnected from coordinator. Reconnecting in ${Math.round(delay / 1000)}s...`);
     mainWindow?.webContents.send('worker-status', getStatus());
-    // Auto-reconnect after 3 seconds
+    // Auto-reconnect with backoff
     setTimeout(() => {
       if (connectionStatus !== 'connected') {
-        const savedIp = getSavedCoordinatorIp();
-        if (savedIp) {
-          log(`Reconnecting to saved coordinator: ${savedIp}`);
-          connectToCoordinator(savedIp, TCP_DEFAULT_PORT, 'coordinator');
-        } else {
-          startDiscovery();
-        }
+        reconnect();
       }
-    }, 3000);
+    }, delay);
   });
 
   socket.on('error', (err) => {
@@ -408,15 +403,104 @@ function sendPipeMsg(socket: net.Socket, message: any) {
   socket.write(Buffer.concat([len, buf]));
 }
 
+// --- Local model auto-pull ---
+// If the coordinator assigns a model this VM doesn't have yet, pull it from
+// the Ollama registry so local inference works without manual setup.
+let pullingModel = '';
+async function ensureModelPulled(model: string): Promise<void> {
+  if (!model || pullingModel === model) return;
+  try {
+    const tags = await fetch('http://localhost:11434/api/tags', { signal: AbortSignal.timeout(3000) });
+    if (tags.ok) {
+      const data: any = await tags.json();
+      const installed = (data.models || []).some((m: any) => m.name === model || m.name === `${model}:latest`);
+      if (installed) return;
+    }
+    pullingModel = model;
+    log(`Model ${model} not in local Ollama — pulling (one-time download)...`);
+    const res = await fetch('http://localhost:11434/api/pull', {
+      method: 'POST',
+      body: JSON.stringify({ model }),
+    });
+    if (res.ok && res.body) {
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder();
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        for (const line of decoder.decode(value, { stream: true }).split('\n').filter(l => l.trim())) {
+          try {
+            const j = JSON.parse(line);
+            if (j.error) { log(`Ollama pull error: ${j.error}`); pullingModel = ''; return; }
+            if (j.total && j.completed) {
+              const pct = Math.round((j.completed / j.total) * 100);
+              if (pct % 25 === 0) log(`[ollama] ${model}: ${pct}%`);
+            }
+          } catch {}
+        }
+      }
+      log(`Model ${model} is ready locally.`);
+    } else {
+      log(`Ollama pull failed with HTTP ${res.status}`);
+    }
+  } catch (err: any) {
+    log(`Ollama model check/pull failed: ${err.message} (is 'ollama serve' running?)`);
+  } finally {
+    if (pullingModel === model) pullingModel = '';
+  }
+}
+
 // --- mDNS Discovery ---
 let foundViaMdns = false;
+let reconnectAttempts = 0;
 
-const DEFAULT_COORDINATOR_IP = '100.115.182.3';
+// GNOME Boxes / QEMU NAT: the host laptop is always reachable from inside the
+// VM at this magic address, so VM workers can find the coordinator without mDNS.
+const VM_HOST_FALLBACKS = ['10.0.2.2', '127.0.0.1'];
+
+/**
+ * Full fallback chain, used on startup AND on every reconnect:
+ * 1. --coordinator-ip= / COORDINATOR_IP (manual override)
+ * 2. last known coordinator IP (persists across VM reboots)
+ * 3. VM NAT fallbacks (10.0.2.2 → host, then localhost)
+ * 4. mDNS (only works on a real LAN, not across VM NAT)
+ */
+function reconnect(): void {
+  // Priority 1: CLI arg or env var
+  const cliIp = getCoordinatorIpArg();
+  if (cliIp) {
+    if (reconnectAttempts === 0) log(`Using coordinator IP from argument: ${cliIp}`);
+    connectToCoordinator(cliIp, TCP_DEFAULT_PORT, 'coordinator');
+    return;
+  }
+
+  // Priority 2: last known coordinator IP
+  const savedIp = getSavedCoordinatorIp();
+  if (savedIp) {
+    if (reconnectAttempts === 0) log(`Trying last known coordinator: ${savedIp}`);
+    connectToCoordinator(savedIp, TCP_DEFAULT_PORT, 'coordinator');
+    return;
+  }
+
+  // Priority 3: VM NAT fallback (10.0.2.2 = the host machine from inside a
+  // QEMU/Boxes NAT VM). Try each fallback once per cycle.
+  const fallback = VM_HOST_FALLBACKS[reconnectAttempts % VM_HOST_FALLBACKS.length];
+  if (reconnectAttempts < VM_HOST_FALLBACKS.length) {
+    log(`No saved coordinator — trying VM NAT fallback: ${fallback}...`);
+    connectToCoordinator(fallback, TCP_DEFAULT_PORT, 'host');
+    return;
+  }
+
+  // Priority 4: mDNS discovery (works on a real LAN; cannot cross VM NAT)
+  if (reconnectAttempts === VM_HOST_FALLBACKS.length) {
+    log('Searching for coordinator via mDNS...');
+  }
+}
 
 function startDiscovery() {
   log('Searching for Title TBD coordinator on network...');
 
-  // Priority 1: CLI arg or env var
+  // Manual override wins immediately
   const cliIp = getCoordinatorIpArg();
   if (cliIp) {
     log(`Using coordinator IP from argument: ${cliIp}`);
@@ -424,21 +508,20 @@ function startDiscovery() {
     return;
   }
 
-  // Priority 2: Last known coordinator IP
+  // Saved IP from a previous run wins next
   const savedIp = getSavedCoordinatorIp();
   if (savedIp) {
     log(`Trying last known coordinator: ${savedIp}`);
     connectToCoordinator(savedIp, TCP_DEFAULT_PORT, 'coordinator');
-    // Still try mDNS in case there's a better one
+    return;
   }
 
-  // Priority 3: Hardcoded default coordinator IP
-  if (!savedIp) {
-    log(`Trying default coordinator: ${DEFAULT_COORDINATOR_IP}`);
-    connectToCoordinator(DEFAULT_COORDINATOR_IP, TCP_DEFAULT_PORT, 'coordinator');
-  }
+  // No saved IP: try VM NAT fallbacks first (10.0.2.2 = host from inside Boxes),
+  // then mDNS. Each failed connection triggers reconnect() with backoff, which
+  // walks the chain.
+  reconnect();
 
-  // Priority 4: mDNS discovery (works on same LAN)
+  // mDNS discovery (runs in parallel — wins if it finds a real coordinator)
   bonjour.find({ type: MDNS_SERVICE_TYPE }, (service: Service) => {
     if (service.name?.includes(os.hostname())) return;
     if (foundViaMdns) return;
@@ -449,17 +532,10 @@ function startDiscovery() {
     const port = service.port || TCP_DEFAULT_PORT;
 
     log(`Found coordinator via mDNS: ${hostname} at ${ip}:${port}`);
+    reconnectAttempts = 0;
     saveCoordinatorIp(ip);
     connectToCoordinator(ip, port, hostname);
   });
-
-  // Priority 5: localhost fallback after 5 seconds
-  setTimeout(() => {
-    if (!foundViaMdns && connectionStatus !== 'connected') {
-      log('mDNS: no coordinator found. Trying localhost:9501...');
-      connectToCoordinator('127.0.0.1', TCP_DEFAULT_PORT, 'localhost');
-    }
-  }, 5000);
 }
 
 // --- Publish worker service ---
@@ -502,6 +578,7 @@ function registerIpcHandlers() {
   });
   ipcMain.handle('connect-to-ip', (_event, ip: string, port?: number) => {
     log(`Manual connection to ${ip}:${port || TCP_DEFAULT_PORT}`);
+    reconnectAttempts = 0;
     saveCoordinatorIp(ip);
     connectToCoordinator(ip, port || TCP_DEFAULT_PORT, 'coordinator');
   });

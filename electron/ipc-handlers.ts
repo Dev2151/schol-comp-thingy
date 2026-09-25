@@ -23,6 +23,7 @@ import {
 import { getNetworkManager, getNodeInfo } from './network/manager';
 import { getOllamaClient } from './ai/ollama-client';
 import { RELAY_DEFAULT_PORT } from '../shared/types';
+import { ensureOllamaModel, getEffectiveFreeRam } from '../shared/model-selection';
 import { assignLayers, sendLayerAssignment, runDistributedInference, getPipelineState } from './ai/distributed';
 
 // Persistent data directory
@@ -337,9 +338,14 @@ export function registerIpcHandlers(mainWindow: BrowserWindow): void {
 
   ipcMain.handle('assign-model-layers', async (_event, modelName: string) => {
     try {
+      // Make sure Ollama actually has this model before splitting it
+      const pulled = await ensureOllamaModel(modelName, (m) => console.log(`[IPC] ${m}`));
+      if (!pulled) {
+        return { assignments: [], workerResults: [], error: `Model ${modelName} is not available in Ollama (pull failed)` };
+      }
       const manager = getNetworkManager();
       const nodes = manager.getConnectedNodes().filter((n: any) => n.nodeId !== manager.getNodeId());
-      const freeRam = os.freemem();
+      const freeRam = getEffectiveFreeRam();
 
       console.log(`[IPC] Assigning layers for ${modelName}, coordinator free RAM: ${(freeRam / 1024**3).toFixed(1)} GB, found ${nodes.length} worker(s)`);
 
