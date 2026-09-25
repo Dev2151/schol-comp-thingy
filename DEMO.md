@@ -1,4 +1,4 @@
-# Title TBD — Live Demo Guide
+#  — Live Demo Guide
 
 **The pitch (30 seconds):**
 > AI answers feel free, but they're not — one chatbot query burns ~10× the energy

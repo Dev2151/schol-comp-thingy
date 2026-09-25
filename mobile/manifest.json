@@ -1,6 +1,6 @@
 {
-  "name": "Title TBD",
-  "short_name": "Title TBD",
+  "name": "",
+  "short_name": "",
   "description": "Distributed storage — upload, download, and chat with AI on your phone",
   "start_url": "/",
   "display": "standalone",

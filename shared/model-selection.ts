@@ -1,5 +1,5 @@
 // ============================================================
-// Title TBD — RAM-based model auto-selection
+//  — RAM-based model auto-selection
 // Shared by the coordinator (electron/) so the whole cluster
 // runs the biggest model that fits on EVERY connected machine.
 // ============================================================

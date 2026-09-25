@@ -11,20 +11,20 @@ import * as fs from 'fs';
 // VMs (e.g. Lubuntu in GNOME Boxes) and on other machines.
 const ALLOWED_HOSTNAME = 'ty-20nks0qn15';
 if (process.platform !== 'linux') {
-  console.warn(`[Title TBD Worker] Warning: unsupported platform ${process.platform} — continuing anyway.`);
+  console.warn(`[ Worker] Warning: unsupported platform ${process.platform} — continuing anyway.`);
 }
 try {
   const osRelease = fs.readFileSync('/etc/os-release', 'utf-8');
   if (!osRelease.includes('arch') && !osRelease.includes('endeavouros')) {
-    console.warn('[Title TBD Worker] Warning: non-Arch-based distro — continuing anyway.');
+    console.warn('[ Worker] Warning: non-Arch-based distro — continuing anyway.');
   }
 } catch {}
 if (os.hostname() !== ALLOWED_HOSTNAME) {
-  console.warn(`[Title TBD Worker] Warning: hostname is ${os.hostname()}, not the dev ThinkPad (${ALLOWED_HOSTNAME}) — continuing anyway.`);
+  console.warn(`[ Worker] Warning: hostname is ${os.hostname()}, not the dev ThinkPad (${ALLOWED_HOSTNAME}) — continuing anyway.`);
 }
 
 // ============================================================
-// Title TBD Worker Node — Main Process
+//  Worker Node — Main Process
 // ============================================================
 
 const DATA_DIR = path.join(os.homedir(), '.title-tbd-worker');
@@ -495,7 +495,7 @@ function reconnect(): void {
 }
 
 function startDiscovery() {
-  log('Searching for Title TBD coordinator on network...');
+  log('Searching for  coordinator on network...');
 
   // Manual override wins immediately
   const cliIp = getCoordinatorIpArg();
@@ -589,7 +589,7 @@ function createWindow() {
   mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
-    title: 'Title TBD Worker',
+    title: ' Worker',
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       contextIsolation: true,

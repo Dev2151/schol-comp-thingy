@@ -209,7 +209,7 @@ export default function App() {
                 <polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2" />
               </svg>
             </div>
-            <span className="logo-text">Title TBD Worker</span>
+            <span className="logo-text"> Worker</span>
           </div>
         </div>
         <div className="header-right" style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>

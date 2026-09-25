@@ -88,7 +88,7 @@ contextBridge.exposeInMainWorld('title-tbd', {
   },
 });
 
-export interface TitleTBDAPI {
+export interface API {
   getConnectedNodes: () => Promise<any[]>;
   getNetworkStats: () => Promise<any>;
   ollamaStatus: () => Promise<any>;

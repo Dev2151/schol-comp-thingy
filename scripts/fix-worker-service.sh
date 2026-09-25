@@ -10,7 +10,7 @@ echo "npx: $NPX"
 
 sudo tee /etc/systemd/system/title-tbd-worker.service >/dev/null <<UNIT
 [Unit]
-Description=Title TBD distributed AI worker
+Description= distributed AI worker
 After=network-online.target ollama.service
 
 [Service]

@@ -1,5 +1,5 @@
 // ============================================================
-// Title TBD — Shared Types
+//  — Shared Types
 // Used by both desktop (Electron) and mobile (PWA) clients
 // ============================================================
 

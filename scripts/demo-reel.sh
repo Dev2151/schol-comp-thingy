@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # 30s fallback demo — terminal only, deterministic, no Wi-Fi needed.
 clear
-echo "  TITLE TBD — distributed inference across consumer machines"
-echo "  ─────────────────────────────────────────────────────────"
+echo "  distributed inference across consumer machines"
+echo "  -------------------------------------------------------"
 echo
 echo "\$ start-cluster status"
 ~/schol-comp-thingy/scripts/start-cluster.sh status | python3 -c "
@@ -20,7 +20,7 @@ timeout 120 ~/llamacpp/llama-b11191/llama-cli -m ~/models/qwen25-3b.gguf \
   -n 8 --temp 0 -st 2>/dev/null | grep -v '^$' | tail -n +2
 echo
 echo "  ↑ generated on the VM's CPU — layers offloaded over one TCP socket"
-echo "  ─────────────────────────────────────────────────────────"
+echo "  -------------------------------------------------------"
 echo "\$ start-cluster ask \"Name the capital of Japan in one word.\""
 timeout 120 ~/llamacpp/llama-b11191/llama-cli -m ~/models/qwen25-3b.gguf \
   --rpc 127.0.0.1:19556 -p "Name the capital of Japan in one word." \

@@ -1,5 +1,5 @@
 // ============================================================
-// Title TBD — Distributed Inference Pipeline
+//  — Distributed Inference Pipeline
 // Splits model layers across coordinator + workers based on RAM
 // ============================================================
 

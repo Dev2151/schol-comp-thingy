@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # ============================================================
-# Title TBD — Worker VM setup (run INSIDE the Lubuntu VM)
+#  — Worker VM setup (run INSIDE the Lubuntu VM)
 # Installs Node.js + Ollama, gets the worker code (prefers the
 # 9p shared folder from the host — it has the latest patches),
 # builds and starts the worker. The worker auto-connects to the

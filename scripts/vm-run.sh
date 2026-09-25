@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # ============================================================
-# Title TBD — run the installed Lubuntu worker VM (after setup)
+#  — run the installed Lubuntu worker VM (after setup)
 # ============================================================
 set -e
 
@@ -8,7 +8,7 @@ VM_DIR="$HOME/VMs"
 DISK="$VM_DIR/lubuntu-worker.qcow2"
 
 exec qemu-system-x86_64 \
-  -name "TitleTBD-Worker-VM" \
+  -name "WorkerVM" \
   -enable-kvm -cpu host \
   -smp 4 -m 4096 \
   -drive file="$DISK",format=qcow2,if=virtio \

@@ -28,7 +28,7 @@ export function publishNode(nodeId: string, port: number = TCP_DEFAULT_PORT): vo
 }
 
 /**
- * Start browsing for other Title TBD nodes on the local network.
+ * Start browsing for other  nodes on the local network.
  * Calls onNodeFound when a new node is discovered.
  */
 export function startDiscovery(
@@ -68,7 +68,7 @@ export function startDiscovery(
   // Note: Service departure tracking is handled by the heartbeat/timeout mechanism
   // in the network manager, not via mDNS events (which are unreliable for departures)
 
-  console.log('[mDNS] Started browsing for Title TBD nodes...');
+  console.log('[mDNS] Started browsing for  nodes...');
 }
 
 /**

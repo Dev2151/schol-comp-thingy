@@ -1,5 +1,5 @@
 // ============================================================
-// Title TBD — Distributed Inference Engine
+//  — Distributed Inference Engine
 // Coordinator runs inference, worker sees live progress
 // ============================================================
 

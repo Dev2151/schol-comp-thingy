@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Title TBD Worker - terminal edition (ttd-node.py)
+ Worker - terminal edition (ttd-node.py)
 
 Zero-dependency (stdlib only) replacement for the Electron worker.
 Speaks the EXACT same coordinator TCP protocol as worker/main.ts:
@@ -277,7 +277,7 @@ def render():
 
     lines = []
     lines.append("=" * 62)
-    lines.append(f" TITLE TBD NODE  |  {socket.gethostname()}  |  {status.upper()}")
+    lines.append(f" NODE  |  {socket.gethostname()}  |  {status.upper()}")
     lines.append("=" * 62)
     lines.append(f" coordinator : {state['coordinator'] or '-'}")
     lines.append(f" uptime      : {int(time.time()-start_ts)}s   tokens seen: {state['tokens_seen']}")

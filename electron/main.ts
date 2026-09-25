@@ -9,16 +9,16 @@ import { execSync } from 'child_process';
 // coordinator laptop AND inside worker VMs (e.g. Lubuntu in GNOME Boxes).
 const ALLOWED_HOSTNAME = 'ty-20nks0qn15';
 if (process.platform !== 'linux') {
-  console.warn(`[Title TBD] Warning: unsupported platform ${process.platform} — continuing anyway.`);
+  console.warn(`[] Warning: unsupported platform ${process.platform} — continuing anyway.`);
 }
 try {
   const osRelease = fs.readFileSync('/etc/os-release', 'utf-8');
   if (!osRelease.includes('arch') && !osRelease.includes('endeavouros')) {
-    console.warn('[Title TBD] Warning: non-Arch-based distro — continuing anyway.');
+    console.warn('[] Warning: non-Arch-based distro — continuing anyway.');
   }
 } catch {}
 if (os.hostname() !== ALLOWED_HOSTNAME) {
-  console.warn(`[Title TBD] Warning: hostname is ${os.hostname()}, not the dev ThinkPad (${ALLOWED_HOSTNAME}) — continuing anyway.`);
+  console.warn(`[] Warning: hostname is ${os.hostname()}, not the dev ThinkPad (${ALLOWED_HOSTNAME}) — continuing anyway.`);
 }
 import { v4 as uuidv4 } from 'uuid';
 import { registerIpcHandlers } from './ipc-handlers';
@@ -43,7 +43,7 @@ function createWindow(): void {
     height: 800,
     minWidth: 800,
     minHeight: 600,
-    title: 'Title TBD',
+    title: '',
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       contextIsolation: true,

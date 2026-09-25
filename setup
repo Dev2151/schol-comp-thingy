@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # ============================================================
-# Title TBD — one entry point for everything
+#  — one entry point for everything
 #   ./setup start     bring up the whole cluster (VM, node, rpc, tunnel, coordinator)
 #   ./setup stop      shut it all down
 #   ./setup ask "..." ask a question (layers execute on the remote node)

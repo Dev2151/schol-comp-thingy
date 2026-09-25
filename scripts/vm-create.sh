@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # ============================================================
-# Title TBD — create the Lubuntu worker VM (QEMU, no root needed)
+#  — create the Lubuntu worker VM (QEMU, no root needed)
 # Networking: user-mode NAT (same model as GNOME Boxes) → the VM
 # reaches the host laptop at 10.0.2.2, internet flows through.
 # Shares the patched repo into the VM over 9p (mount_tag=hostrepo).
@@ -16,7 +16,7 @@ mkdir -p "$VM_DIR"
 
 # First boot: installer from the ISO
 exec qemu-system-x86_64 \
-  -name "TitleTBD-Worker-VM" \
+  -name "WorkerVM" \
   -enable-kvm -cpu host \
   -smp 4 -m 4096 \
   -drive file="$DISK",format=qcow2,if=virtio \

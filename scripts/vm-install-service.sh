@@ -6,7 +6,7 @@ PW=lubuntu123
 echo "$PW" | sudo -S bash -c '
 cat > /etc/systemd/system/title-tbd-worker.service <<UNIT
 [Unit]
-Description=Title TBD distributed AI worker
+Description= distributed AI worker
 After=network-online.target ollama.service
 
 [Service]

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # ============================================================
-# Title TBD — start the TRUE distributed-inference cluster
+#  — start the TRUE distributed-inference cluster
 #  laptop (orchestrator + its layers) <--RPC over SSH tunnel--> VM (its layers)
 # Usage:
 #   start-cluster            start everything (VM, rpc, tunnel, coordinator, node)
@@ -16,8 +16,8 @@ SSH_OPTS="-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p 2222"
 VM_SSH="vmuser@127.0.0.1"
 
 say(){ echo -e "\033[1;36m== $1\033[0m"; }
-ok(){ echo "  ✅ $1"; }
-warn(){ echo "  ⚠️  $1"; }
+ok(){ echo "  [ok] $1"; }
+warn(){ echo "  [!!] $1"; }
 
 if [ "${1:-}" = "stop" ]; then
   say "Stopping cluster"
@@ -46,9 +46,7 @@ s.sendall(b'STATUS'); print(s.recv(65536).decode())"
   exit 0
 fi
 
-echo "  ╔══════════════════════════════════════════╗"
-echo "  ║  TITLE TBD — true distributed inference  ║"
-echo "  ╚══════════════════════════════════════════╝"
+echo "  distributed inference cluster"
 
 # 1. VM (kill-proof systemd user unit)
 say "Starting worker VM"
@@ -111,11 +109,11 @@ done
 grep -E 'Auto-assigned' /tmp/ttbd-coord.log 2>/dev/null | tail -1 | sed 's/^/     /'
 
 echo "
-  ──────────────────────────────────────────────
+  --------------------------------------------
   CLUSTER READY
    • true layer offload : start-cluster ask \"your question\"
    • VM node status     : start-cluster status
    • VM node logs       : ssh -p 2222 vmuser@127.0.0.1 'tail /home/vmuser/ttd/node.log'
    • chat UI            : coordinator window (port 5173)
    • shut down          : start-cluster stop
-  ──────────────────────────────────────────────"
+  --------------------------------------------"

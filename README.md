@@ -136,7 +136,7 @@ this solution is what I feel possible in the constraints which you have given be
 ---
 ---
 
-# Part 2: Title TBD — Distributed AI Inference
+# Part 2:  — Distributed AI Inference
 
 ## What is this?
 
@@ -270,7 +270,7 @@ The worker auto-discovers the coordinator via mDNS (same LAN) or connects to the
 ---
 ---
 
-# Part 3: How Effectively Does Title TBD Address These Problems?
+# Part 3: How Effectively Does  Address These Problems?
 
 This section evaluates this app against each core problem identified in the original essay.
 
@@ -394,7 +394,7 @@ This app is distributed by design. If one PC goes offline, the others continue o
 | Environmental footprint | Eliminates new infrastructure costs — zero new water or power consumption |
 | Single point of failure | Inherently solved — distributed architecture with no central dependency |
 
-### What Title TBD Can and Cannot Do
+### What  Can and Cannot Do
 
 **It can:**
 - Eliminate the need for new AI data center construction
