@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# ============================================================
+# Title TBD — one entry point for everything
+#   ./setup start     bring up the whole cluster (VM, node, rpc, tunnel, coordinator)
+#   ./setup stop      shut it all down
+#   ./setup ask "..." ask a question (layers execute on the remote node)
+#   ./setup status    live status of the worker node
+#   ./setup demo      scripted 30s terminal reel (for recording the fallback video)
+# ============================================================
+set -u
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+exec "$DIR/scripts/start-cluster.sh" "$@"
