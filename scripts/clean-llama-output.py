@@ -16,6 +16,9 @@ else:
     # no prompt echo at all: strip known junk line-wise
     out = re.sub(r"Loading model\.[^\n]*", "", out)
 
+# 1b. drop the interactive prompt-echo line ("> question") itself
+out = re.sub(r"^> .*\n", "", out)
+
 # 2. within the remainder, drop perf stats / exit lines / help remnants
 out = re.sub(r"\[ Prompt:.*?\]\n?", "", out)
 out = re.sub(r"\n?Exiting\.\.\.\n?", "", out)
