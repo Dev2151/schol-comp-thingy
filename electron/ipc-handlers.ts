@@ -1,25 +1,8 @@
-import { ipcMain, BrowserWindow, dialog } from 'electron';
+import { ipcMain, BrowserWindow } from 'electron';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as os from 'os';
 import { v4 as uuidv4 } from 'uuid';
-import { splitIntoChunks, reassembleChunks, computeHash, verifyHash } from './storage/chunker';
-import {
-  encryptToBuffer,
-  decryptFromBuffer,
-  deriveKey,
-  generateSalt,
-} from './storage/encryptor';
-import {
-  createManifest,
-  addChunkToManifest,
-  saveManifest,
-  loadManifest,
-  listManifests,
-  deleteManifest,
-  storeChunkLocally,
-  getStorageUsed,
-} from './storage/manifest';
 import { getNetworkManager, getNodeInfo } from './network/manager';
 import { getOllamaClient } from './ai/ollama-client';
 import { RELAY_DEFAULT_PORT } from '../shared/types';
@@ -49,139 +32,6 @@ function getOrCreateNodeId(): string {
 export function registerIpcHandlers(mainWindow: BrowserWindow): void {
   const nodeId = getOrCreateNodeId();
 
-  // --- Open File Dialog ---
-  ipcMain.handle('open-file-dialog', async () => {
-    const result = await dialog.showOpenDialog(mainWindow, {
-      properties: ['openFile'],
-    });
-    if (result.canceled || result.filePaths.length === 0) {
-      return { canceled: true, filePath: null };
-    }
-    return { canceled: false, filePath: result.filePaths[0] };
-  });
-
-  // --- File Upload ---
-  ipcMain.handle('upload-file', async (_event, filePath: string, password: string) => {
-    try {
-      const fileData = fs.readFileSync(filePath);
-      const fileName = path.basename(filePath);
-      const mimeType = getMimeType(fileName);
-      const fileSize = fileData.length;
-
-      // Create manifest
-      const { manifest, fileId, salt } = createManifest(fileName, mimeType, fileSize);
-
-      // Split into chunks
-      const chunks = splitIntoChunks(fileData, manifest.chunkSize);
-
-      // Encrypt each chunk and store locally (for now, all chunks on this node)
-      // In Phase 2+, we'll distribute to other nodes
-      for (const chunk of chunks) {
-        const key = deriveKey(password, salt);
-        const encryptedData = encryptToBuffer(chunk.data, key);
-        const { hash } = storeChunkLocally(DATA_DIR, fileId, chunk.index, encryptedData, password);
-
-        const chunkMetadata = {
-          chunkId: uuidv4(),
-          fileId,
-          chunkIndex: chunk.index,
-          totalChunks: chunks.length,
-          originalSize: chunk.size,
-          encryptedSize: encryptedData.length,
-          sha256: hash,
-          iv: '', // IV is packed in the encrypted buffer
-          nodeId,
-        };
-
-        addChunkToManifest(manifest, chunkMetadata);
-      }
-
-      // Save manifest
-      saveManifest(DATA_DIR, manifest);
-
-      // Notify renderer
-      mainWindow?.webContents.send('files-updated', listManifests(DATA_DIR));
-
-      return { success: true, fileId, chunks: chunks.length };
-    } catch (error: any) {
-      return { success: false, error: error.message };
-    }
-  });
-
-  // --- File Download ---
-  ipcMain.handle(
-    'download-file',
-    async (_event, fileId: string, outputPath: string, password: string) => {
-      try {
-        const manifest = loadManifest(DATA_DIR, fileId);
-        if (!manifest) {
-          return { success: false, error: 'File manifest not found' };
-        }
-
-        const loadedChunks: { index: number; data: Buffer; size: number }[] = [];
-
-        for (const chunkMeta of manifest.chunks) {
-          // Try loading from local storage first
-          const chunksDir = path.join(DATA_DIR, 'title-tbd-storage', 'chunks', fileId);
-          const fileName = `chunk_${String(chunkMeta.chunkIndex).padStart(4, '0')}.enc`;
-          const filePath = path.join(chunksDir, fileName);
-
-          if (!fs.existsSync(filePath)) {
-            // TODO: In Phase 2, fetch from remote node
-            return {
-              success: false,
-              error: `Chunk ${chunkMeta.chunkIndex} not found locally or on remote nodes`,
-            };
-          }
-
-          const encryptedData = fs.readFileSync(filePath);
-          const salt = Buffer.from(manifest.encryptionSalt, 'base64');
-          const key = deriveKey(password, salt);
-          const decryptedData = decryptFromBuffer(encryptedData, key);
-
-          loadedChunks.push({
-            index: chunkMeta.chunkIndex,
-            data: decryptedData,
-            size: decryptedData.length,
-          });
-        }
-
-        // Reassemble
-        const fileData = reassembleChunks(loadedChunks);
-
-        // Verify total size
-        if (fileData.length !== manifest.totalSize) {
-          return {
-            success: false,
-            error: `Size mismatch: expected ${manifest.totalSize}, got ${fileData.length}`,
-          };
-        }
-
-        // Write to output path
-        const finalPath = outputPath || path.join(os.homedir(), 'Downloads', manifest.originalFilename);
-        fs.writeFileSync(finalPath, fileData);
-
-        return { success: true, path: finalPath, size: fileData.length };
-      } catch (error: any) {
-        return { success: false, error: error.message };
-      }
-    }
-  );
-
-  // --- List Files ---
-  ipcMain.handle('list-files', async () => {
-    return listManifests(DATA_DIR);
-  });
-
-  // --- Delete File ---
-  ipcMain.handle('delete-file', async (_event, fileId: string) => {
-    const success = deleteManifest(DATA_DIR, fileId);
-    if (success) {
-      mainWindow?.webContents.send('files-updated', listManifests(DATA_DIR));
-    }
-    return success;
-  });
-
   // --- Network ---
   ipcMain.handle('get-connected-nodes', async () => {
     try {
@@ -190,16 +40,6 @@ export function registerIpcHandlers(mainWindow: BrowserWindow): void {
     } catch {
       return [];
     }
-  });
-
-  ipcMain.handle('get-storage-stats', async () => {
-    const used = getStorageUsed(DATA_DIR);
-    return {
-      totalOffered: 2 * 1024 * 1024 * 1024, // 2GB default
-      totalUsed: used,
-      filesStored: listManifests(DATA_DIR).length,
-      chunksStored: 0, // TODO: count chunks
-    };
   });
 
   ipcMain.handle('get-network-stats', async () => {
@@ -414,24 +254,4 @@ function getLanIp(): string {
     }
   }
   return 'localhost';
-}
-
-function getMimeType(filename: string): string {
-  const ext = path.extname(filename).toLowerCase();
-  const mimeTypes: Record<string, string> = {
-    '.jpg': 'image/jpeg',
-    '.jpeg': 'image/jpeg',
-    '.png': 'image/png',
-    '.gif': 'image/gif',
-    '.webp': 'image/webp',
-    '.pdf': 'application/pdf',
-    '.doc': 'application/msword',
-    '.docx': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-    '.txt': 'text/plain',
-    '.mp3': 'audio/mpeg',
-    '.mp4': 'video/mp4',
-    '.zip': 'application/zip',
-    '.json': 'application/json',
-  };
-  return mimeTypes[ext] || 'application/octet-stream';
 }
