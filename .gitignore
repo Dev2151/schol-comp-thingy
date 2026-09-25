@@ -22,3 +22,4 @@ Thumbs.db
 # FreeGrid data
 .freegrid/
 freegrid-storage/
+__pycache__/
