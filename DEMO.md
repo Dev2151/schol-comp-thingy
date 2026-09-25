@@ -22,8 +22,10 @@ machines process their layers in sequence and tokens stream to everyone, live.
 ## The one command
 
 ```bash
-project          # starts Ollama + coordinator + UI + VM, waits for the worker
-project stop     # shuts it all down
+start-cluster            # VM + rpc backend + tunnel + coordinator, waits for the node
+start-cluster ask "..."  # question through the model whose layers RUN IN THE VM
+start-cluster status     # live node status (layers held, RAM, connection)
+start-cluster stop       # shut it all down
 ```
 
 The VM's worker auto-starts on boot (desktop autostart entry) and always finds the
@@ -32,15 +34,20 @@ host via the `10.0.2.2 → saved IP → mDNS` fallback chain. No typing inside t
 ## The demo script
 
 1. **Point at the two windows:** the coordinator app on the laptop, and the QEMU
-   window showing the Lubuntu VM — a *second computer* running inside the first.
-   Its worker connected by itself; show the Cluster page: two nodes, RAM, layers.
-2. **Send a prompt in Chat.** Tokens stream into the UI while the VM's worker
-   window fills with live progress events — "that machine is doing part of the work."
-3. **Show the split:** `gemma2:2b` = 26 layers → laptop keeps some, VM takes the
-   rest, proportional to free RAM. If you swap in a beefier machine, the picker
-   upgrades the model automatically.
-4. **Kill it on purpose:** close the VM window → cluster self-heals, coordinator
-   keeps running. Relaunch → worker rejoins on its own. Resilience is the point.
+   window showing the Lubuntu VM running its **terminal node** (`ttd-node.py`) —
+   a live diagnostic dashboard: connection status, layer assignment, RAM bar,
+   event log. No GUI app needed in the node; the terminal IS the UI.
+2. **`start-cluster ask "What is 7 times 8?"`** → `56`. The point: the model's
+   layers are OFFLOADED to the VM via llama.cpp's RPC backend (MIT) — the laptop
+   orchestrates, the VM computes its layer range on its own CPU, activations
+   cross the wire token by token. This is true pipeline offload, not a
+   simulation. Verified answers: 7×8 → 56, Japan → Tokyo, plus coherent
+   long-form answers about distributed computing.
+3. **Show the split:** the coordinator's RAM picker auto-assigns layers
+   (e.g. gemma2:2b → VM holds L8-25) and the node's dashboard displays the
+   assignment live. More free RAM on a node → bigger model picked.
+4. **Kill it on purpose:** close the VM → coordinator keeps running; the node
+   reconnects with backoff when it returns. `start-cluster status` shows it all.
 
 ## Facts to drop (from the README)
 
@@ -59,12 +66,18 @@ host via the `10.0.2.2 → saved IP → mDNS` fallback chain. No typing inside t
 - **"Why not just use a big server?"** A big server concentrates power, water,
   heat, and failure. We distribute all four — and scale by adding a laptop,
   not building a facility.
-- **"What does the worker actually do?"** Holds its assigned layers, receives
-  token/progress events, reports RAM/CPU, and is wired for full pipeline
-  inference (`INFER_REQUEST`/`INFER_RESPONSE` are already in the protocol).
+- **"What does the worker actually do?"** In the true-offload path, it literally
+  computes its assigned layers of the GGUF model (llama.cpp RPC backend, MIT
+  licensed) and ships intermediate activations back over the wire — salvaged
+  from upstream llama.cpp rather than reinvented. The custom `ttd-node.py`
+  terminal app adds cluster membership, diagnostics, and the coordinator
+  protocol (hello/assign/heartbeat) on top.
 - **"Does it scale?"** The RAM picker picks the best model for whatever nodes
-  show up. More nodes → bigger model, not just faster.
+  show up. More nodes → bigger model, not just faster. (Design notes: Exo's
+  zero-config discovery and Petals' layer-routing are the upstream patterns
+  this architecture follows.)
 
-*One honest footnote (keep for yourself):* in this build the coordinator's Ollama
-streams the final tokens while the VM runs its assigned slice and the live
-coordination — full layer-by-layer tensor relay is the next milestone.
+*Footnote:* two engines, two jobs — the Electron coordinator runs the chat UI
+and cluster bookkeeping (Ollama), while the *true* tensor relay runs on
+llama.cpp's RPC backend with the terminal node in the VM. Both are open source;
+neither was reinvented.
