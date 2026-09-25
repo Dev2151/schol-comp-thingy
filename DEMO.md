@@ -1,4 +1,4 @@
-#  — Live Demo Guide
+# Live Demo Guide
 
 **The pitch (30 seconds):**
 > AI answers feel free, but they're not — one chatbot query burns ~10× the energy
@@ -33,10 +33,10 @@ host via the `10.0.2.2 → saved IP → mDNS` fallback chain. No typing inside t
 
 ## The demo script
 
-1. **Point at the two windows:** the coordinator app on the laptop, and the QEMU
-   window showing the Lubuntu VM running its **terminal node** (`ttd-node.py`) —
-   a live diagnostic dashboard: connection status, layer assignment, RAM bar,
-   event log. No GUI app needed in the node; the terminal IS the UI.
+1. **Point at the two terminals:** the host terminal running `./setup`, and the
+   QEMU window showing the Lubuntu VM running its **terminal node**
+   (`ttd-node.py`) — a live diagnostic dashboard: connection status, layer
+   assignment, RAM bar, event log. Everything is CLI; there is no GUI app.
 2. **`start-cluster ask "What is 7 times 8?"`** → `56`. The point: the model's
    layers are OFFLOADED to the VM via llama.cpp's RPC backend (MIT) — the laptop
    orchestrates, the VM computes its layer range on its own CPU, activations
